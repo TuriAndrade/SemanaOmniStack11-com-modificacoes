@@ -1,5 +1,5 @@
 const connection = require('../database/connection');
-const crypto = require('crypto');
+//const crypto = require('crypto');
 
 module.exports = {
     async index(request,response){
@@ -9,19 +9,29 @@ module.exports = {
     },
 
     async create(request,response){
-        const {name,email,whatsapp,city,uf} = request.body; 
+
+        const {login,password,name,email,whatsapp,city,uf} = request.body; 
     
-        const id = crypto.randomBytes(4).toString('HEX'); //gera id aleatória
+        //const id = crypto.randomBytes(4).toString('HEX'); //gera id aleatória
+        
+        const alreadyExists = await connection('ongs').where('login',login).select('login').first();
 
-        await connection('ongs').insert({
-            id,
-            name,
-            email,
-            whatsapp,
-            city,
-            uf,
-        });
-
-        return response.json({id});
+        if(!alreadyExists){
+            await connection('ongs').insert({
+                login,
+                password,
+                name,
+                email,
+                whatsapp,
+                city,
+                uf,
+            });
+    
+            return response.json({login:login});
+        }else{
+            return response.status(409).json({error:"Login already exists"});
+        }
     }
 }
+
+//aparentemente, as queries retornam promisses, pois promisses precisam ser o retorno do await para async functions funcionarem 

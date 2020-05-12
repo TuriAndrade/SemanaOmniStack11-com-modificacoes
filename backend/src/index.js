@@ -1,8 +1,9 @@
 //OBS: npm instala pacotes e npx executa
 
-const express = require('express'); //require é usado para importar pacotes, como o express e arquivos
+const express = require('express'); //require é usado para importar pacotes, como o express, e arquivos
 const cors = require('cors');
 const routes = require('./routes'); //require usado para importar o arquivo routes.js
+const cookieParser = require('cookie-parser'); //Middleware que permite criação e manipulação de cookies
 
 const app = express(); // express fornece mecanismos para gerenciamento de rotas, URLs e requisições.
 
@@ -13,15 +14,34 @@ Sua principal função é permitir comunicação entre o frontend e o backend.
 */
 
 app.use(cors()); 
+
+/*
+    Normalmente, o frontend não conseguiria acessar o backend, mas o cors() sem especificação
+    nenhuma permite que qualquer domínio acesse o backend.
+*/
+
+app.use(cookieParser());
+
 app.use(express.json()); // Possibilita o entendimento de request body em JSON pelo javascript. Deve ser declarado antes das rotas para que elas possam usar JSON 
 app.use(routes);
 
-app.listen(3333,'localhost'); // inicia a conexão nos determinados (port, hostname) 
+app.listen(3333,'localhost',()=>{
+    app.set('timestamp',new Date().getTime()/1000);
+
+/*
+    Grava a data do momento em que o servidor vai pro ar em timestamp (milisec desde 1/1/1970)
+    convertida pra segundos. Assim, posso comparar com o iat dos tokens para invalidar todos criados
+    antes do servidor ir pro ar. Isso é importante por que se o servidor cair, a token blacklist
+    no kedis(in memory database) é deletada, fazendo com que a data mínima válida de criação de
+    um token seja apagada e qualquer data possa ser aceita.
+*/
+
+}); // inicia a conexão nos determinados (port, hostname) 
 
 
 /* 
     Rota => ex: localhost:3333/users 
-    Recurso: users => um recurso pode ser um registro em uma tabela do DB por exemplo, normalmente identificado pela id
+    Recurso: users => um recurso pode ser um registro em uma tabela do DB por exemplo, normalmente identificado pela id, e sua identificação pode ser passada por route params.
 
 *
     Métodos HTTP:
@@ -35,7 +55,7 @@ app.listen(3333,'localhost'); // inicia a conexão nos determinados (port, hostn
 
     Tipos de parâmetros
 
-    Query params: nomeados e enviados na rota após "?" (Filtros, paginação)
+    Query params: nomeados e enviados na rota após "?" (Filtros de pesquisa, paginação)
     Route params: parâmetros usados para identificar recursos
     Request body: corpo da requisição, utilizado para criar ou alterar recursos 
     Request header: guarda informações do contexto da requisição, como autenticação do usuário, localização, etc

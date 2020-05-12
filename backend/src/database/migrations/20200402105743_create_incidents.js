@@ -5,8 +5,8 @@ exports.up = function(knex) { //usado para criar tabelas
       table.string('title').notNullable();
       table.string('description').notNullable();
       table.decimal('value').notNullable();
-      table.string('ong_id').notNullable();
-      table.foreign('ong_id').references('id').inTable('ongs');
+      table.string('ong_login').notNullable();
+      table.foreign('ong_login').references('login').inTable('ongs');
     });
   };
   

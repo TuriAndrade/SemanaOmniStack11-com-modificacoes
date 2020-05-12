@@ -6,15 +6,22 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.9.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "compile:sass-logon": "node-sass ./src/scss/logon_main.scss ./src/pages/logon/logon_main.css -w",
+    "compile:sass-register": "node-sass ./src/scss/register_main.scss ./src/pages/register/register_main.css -w",
+    "compile:sass-profile": "node-sass ./src/scss/profile_main.scss ./src/pages/profile/profile_main.css -w",
+    "compile:sass-newIncident": "node-sass ./src/scss/newIncident_main.scss ./src/pages/newIncident/newIncident_main.css -w"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.13.1"
   }
 }

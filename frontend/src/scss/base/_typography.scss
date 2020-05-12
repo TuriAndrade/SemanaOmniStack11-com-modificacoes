@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: "Roboto",sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.4rem;
+    -webkit-font-smoothing:antialiased;
+}
+
+a,input,button,textarea{ //por padrão não pegam a font do body
+    font-family: "Roboto",sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.8rem;
+}
+
+.heading-primary{
+    font-size:3.2rem;
+}

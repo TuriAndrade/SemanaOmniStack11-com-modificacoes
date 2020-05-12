@@ -1,0 +1,90 @@
+/*
+    OBS: Alguns elementos, mesmo com display block, tem a width definida pelo conteúdo.
+    Eles são <input>, <select>, <button>, <img>, <object> e <textarea>.
+    Por isso, é necessário definir a width deles para 100% se esse for o caso, 
+    mesmo se o display deles for block.
+*/
+.btn-icon{
+    display: inline-flex;
+    border: .1rem solid $color-grey-light-2;
+    justify-content: center;
+    align-items: center;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius:.4rem;
+    background:transparent;
+    transition:all .2s;
+
+    &:hover{
+        border-color: $color-grey-dark-3;
+    }
+}
+
+.btn-icon-2{
+    display: inline-block;
+    border: none;
+    color:$color-grey-dark-3;
+    background:transparent;
+    transition:all .2s;
+
+    &:hover{
+        opacity:.4;
+    }
+}
+
+.btn{
+    display: inline-block;
+    background-color: $color-red;
+    border: none;
+    border-radius: .8rem;
+    color: $color-white;
+    font-weight: 700;
+    padding: 1.2rem 3rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.8rem;
+    transition: all 0.2s;
+
+    &:hover{
+        filter:brightness(90%);
+    }
+}
+
+.btn-100{
+    width: 100%;
+    display: block;
+    background-color: $color-red;
+    border: none;
+    border-radius: .8rem;
+    color: $color-white;
+    font-weight: 700;
+    padding: 1.2rem 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.8rem;
+    transition: all 0.2s;
+
+    &:hover{
+        filter:brightness(90%);
+    }
+}
+
+.link{
+    &:link,
+    &:visited{
+        font-weight: 500;
+        text-decoration: none;
+        color:$color-grey-dark-1;
+        display: inline-flex;
+        align-items: center;
+        transition: all .2s;
+    }
+
+    &:hover{
+        opacity: .8;
+    }
+
+    svg{
+        margin-right: .8rem;
+    }
+}

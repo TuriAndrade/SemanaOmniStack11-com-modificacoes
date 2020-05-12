@@ -1,0 +1,23 @@
+html{
+    font-size: 62.5%;
+}
+
+*, *::after,*::before{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+body{
+    box-sizing: border-box;
+    background-color: $color-grey-light-1;
+}
+
+input,button,textarea,a{
+    box-sizing: border-box; //não herdam por algum motivo em algumas situações
+}
+
+a,button{
+    cursor:pointer;
+}
+

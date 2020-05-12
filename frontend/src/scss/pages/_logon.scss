@@ -1,0 +1,28 @@
+.logon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    &__logo-img {
+        width: 100%;
+        overflow: hidden;
+    
+        img{
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &__heroes-img {
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        
+        img{
+            max-width: 100%;
+            width: 100%;
+        }
+    }
+}

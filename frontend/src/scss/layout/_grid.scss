@@ -1,0 +1,72 @@
+/*
+    OBS:flex-basis defines the width if the flex direction is row and height if its column, 
+    so it doesn't work very well with flex direction column if the parent of the column has 
+    no defined height.
+*/
+
+.row {
+    display: flex;
+    margin: 0 auto;
+    max-width: $grid-width;
+
+    &:not(:last-child){
+        margin-bottom: $gutter-vertical;
+    }
+}
+
+.row-fluid {
+    display: flex;
+    margin: 0 auto;
+
+    &:not(:last-child){
+        margin-bottom: $gutter-vertical;
+    }
+}
+
+.col {
+    flex-grow: 0;
+    flex-shrink: 1;
+    &:not(:last-child) {
+        margin-right: $gutter-horizontal;
+    }
+}
+
+.col-100 {
+    width: 100%;
+    max-width: 100%;
+}
+
+.col-40{
+    width: calc(2*(100% - #{$gutter-horizontal})/5);
+    max-width: calc(2*(100% - #{$gutter-horizontal})/5);
+}
+
+.col-60{
+    width: calc(3*(100% - #{$gutter-horizontal})/5);
+    max-width: calc(3*(100% - #{$gutter-horizontal})/5);
+}
+
+.col-50 {
+    width: calc((100% - #{$gutter-horizontal})/2);
+    max-width: calc((100% - #{$gutter-horizontal})/2);
+}
+
+.col-33 {
+    width: calc((100% - 2 * #{$gutter-horizontal})/3);
+    max-width: calc((100% - 2 * #{$gutter-horizontal})/3);
+}
+
+.col-25 {
+    width: calc((100% - 3 * #{$gutter-horizontal})/4);
+    max-width: calc((100% - 3 * #{$gutter-horizontal})/4);
+}
+
+.col-66 {
+    width: calc((100% - 2 * #{$gutter-horizontal})/3*2 + #{$gutter-horizontal});
+    max-width: calc((100% - 2 * #{$gutter-horizontal})/3*2 + #{$gutter-horizontal});
+}
+
+.col-75 {
+    width: calc((100% - 3 * #{$gutter-horizontal})/4*3 + 2 * #{$gutter-horizontal});
+    max-width: calc((100% - 3 * #{$gutter-horizontal})/4*3 + 2 * #{$gutter-horizontal});
+}

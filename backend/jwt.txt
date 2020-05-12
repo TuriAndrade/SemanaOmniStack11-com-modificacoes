@@ -1,0 +1,91 @@
+A JWT technically is a mechanism to verify the owner of some JSON data. It’s an encoded string, which is 
+URL safe, that can contain an unlimited amount of data (unlike a cookie), and it’s cryptographically 
+signed.
+
+When a server receives a JWT, it can guarantee the data it contains can be trusted because it’s signed by 
+the source. No middleman can modify a JWT once it’s sent.
+
+IMPORTANT: It’s important to note that a JWT guarantees data ownership but not encryption; the JSON data you store 
+into a JWT can be seen by anyone that intercepts the token, as it’s just serialized, not encrypted.
+
+For this reason, it’s highly recommended to use HTTPS with JWTs (and HTTPS in general, by the way).
+
+JWT is good for authentications because, even if the information used to create the token to authenticate a 
+route is not private, like a login or name, the authentication key is exclusively used on the server. This
+way, the only to authenticate a route is to send with the request a token that was signed by the server key.
+
+
+
+
+
+
+
+The token is divided in 3 parts
+
+Header:
+
+    The header typically consists of two parts: the type of the token, which is JWT, and the hashing 
+    algorithm being used, such as HMAC SHA256 or RSA.
+
+Payload: WHERE THE DATA GOES
+
+    The second part of the token is the payload, which contains the claims. Claims are predefined keys and 
+    their values. There are three types of claims: registered, public, and private claims.
+
+    Registered claims: These are a set of predefined keys which are not mandatory but recommended. Some of 
+    them are iss (issuer), exp (expiration time) etc.
+
+    Public claims: These can be defined at will by those using JWTs. But to avoid collisions they should be 
+    defined in the IANA JSON Web Token Registry or be defined as a URI that contains a collision resistant 
+    namespace.
+
+    Private claims: These are the custom key value pairs created to share information between parties that 
+    agree on using them and are neither registered or public claims.
+
+Signature:
+
+    To create the signature part you have to take the encoded header, the encoded payload, a secret, the 
+    algorithm specified in the header, and sign that.
+
+
+
+
+
+
+
+OBS: Session Based Authentication VS Token Based Authentication
+
+    HTTP is stateless. All the requests are stateless. However, there are situations where we would like our 
+    states to be remembered. For example, in a on-line shop, after we put bananas in a shopping cart, we 
+    don’t want our bananas to disappear when we go to another page to buy apples. ie. we want our purchase 
+    state to be remembered while we navigate through the on-line shop!
+
+    To overcome the stateless nature of HTTP requests, we could use either a session or a token.
+
+    Session Based Authentication =>
+    
+        In the session based authentication, the server will create a session for the user after the user 
+        logs in. The session id is then stored on a cookie on the user’s browser. While the user stays logged 
+        in, the cookie would be sent along with every subsequent request. The server can then compare the 
+        session id stored on the cookie against the session information stored in the memory to verify user’s 
+        identity and sends response with the corresponding state!
+
+    Token Based Authentication =>
+
+        Many web applications use JSON Web Token (JWT) instead of sessions for authentication. In the token 
+        based application, the server creates JWT with a secret and sends the JWT to the client. The client 
+        stores the JWT (usually in local storage) and includes JWT in the header with every request. The 
+        server would then validate the JWT with every request from the client and sends response.
+
+        OBS: THE SERVER DOESN'T STORE THE TOKENS, ONLY THE KEY.
+
+        OBS: USING JWT'S WITH SESSION BASED AUTHENTICATION IS BAD =>
+
+            A JWT occupies WAAAY more space than a usual session id and is usually redundant, because it
+            often contains a lot of user's information signed. Information that you could get anyway through
+            the many database querys you make.
+
+        OBS: STORING JWT TOKENS IN LOCAL OR SESSION STORAGE IS BAD, THEY ARE VUNERABLE TO XSS ATACKS =>
+            The JWT needs to be stored inside an httpOnly cookie, a special kind of cookie that’s only 
+            sent in HTTP requests to the server, and it’s never accessible (both for reading or writing) 
+            from JavaScript running in the browser.

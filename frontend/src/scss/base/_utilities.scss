@@ -1,0 +1,109 @@
+.u-container-small{
+    width: 100%;
+    max-width:700px; //nesse caso tem que ser definido com px em vez de rem
+}
+
+.u-container-big{
+    width: 100%;
+    max-width:1180px; //nesse caso tem que ser definido com px em vez de rem
+}
+
+.u-center-text{
+    text-align: center;
+}
+
+.u-margin-bottom-huge{
+    margin-bottom:12rem;
+}
+
+.u-margin-bottom-big{
+    margin-bottom: 8rem;
+}
+
+.u-margin-bottom-medium{
+    margin-bottom: 4rem;
+}
+
+.u-margin-bottom-small{
+    margin-bottom: 2rem;
+}
+
+.u-margin-top-huge{
+    margin-top:12rem;
+}
+
+.u-margin-top-big{
+    margin-top: 8rem;
+}
+
+.u-margin-top-medium{
+    margin-top: 4rem;
+}
+
+.u-margin-top-small{
+    margin-top: 2rem;
+}
+
+.u-padding-bottom-huge{
+    padding-bottom:12rem;
+}
+
+.u-padding-bottom-big{
+    padding-bottom: 8rem;
+}
+
+.u-padding-bottom-medium{
+    padding-bottom: 4rem;
+}
+
+.u-padding-bottom-small{
+    padding-bottom: 2rem;
+}
+
+.u-padding-top-huge{
+    padding-top:12rem;
+}
+
+.u-padding-top-big{
+    padding-top: 8rem;
+}
+
+.u-padding-top-medium{
+    padding-top: 4rem;
+}
+
+.u-padding-top-small{
+    padding-top: 2rem;
+}
+
+.u-box-shadow{
+    box-shadow: 0 1rem 4rem rgba($color-black, .15);
+}
+
+.u-padding-medium{
+    padding: 5rem;
+}
+
+.u-align-items-center{
+    align-items: center;
+}
+
+.u-align-items-start{
+    align-items: start;
+}
+
+.u-justify-content-center{
+    justify-content: center;
+}
+
+.u-justify-content-space-between{
+    justify-content: space-between;
+}
+
+.u-font-size-icon-small{
+    font-size: 2rem;
+}
+
+.u-font-size-icon-medium{
+    font-size: 4rem;
+}

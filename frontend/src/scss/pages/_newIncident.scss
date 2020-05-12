@@ -1,0 +1,16 @@
+.newIncident-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    &__logo-img {
+        width: 100%;
+        overflow: hidden;
+    
+        img{
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+}

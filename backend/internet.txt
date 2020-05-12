@@ -1,0 +1,543 @@
+INTERNET =>
+
+    The Internet is the global system of interconnected computer networks that uses the Internet 
+    protocol suite (TCP/IP) to communicate between networks and devices. It is a network of networks 
+    that consists of private, public, academic, business, and government networks of local to global 
+    scope, linked by a broad array of electronic, wireless, and optical networking technologies. The 
+    Internet carries a vast range of information resources and services.
+
+IP/DNS =>
+
+    An Internet Protocol address (IP address) is a numerical label assigned to each device connected 
+    to a computer network that uses the Internet Protocol for communication. 
+
+    The Domain Name System (DNS) translates more readily memorized domain names to the numerical IP addresses 
+    needed for locating and identifying computer services and devices
+
+ROUTER/MODEM =>
+
+    A router connects multiple networks and routes network traffic between them. It’s really that simple. 
+    In the case of your home network, your router has one connection to the Internet and one connection to 
+    your private local network. In addition, most routers also contain built-in switches that let you connect 
+    multiple wired devices. Many also contain wireless radios that let you connect Wi-Fi devices.
+
+    A router is a networking device that forwards data packets between computer networks. Routers perform 
+    the traffic directing functions on the Internet. Data sent through the internet, such as a web page or 
+    email, is in the form of data packets. A packet is typically forwarded from one router to another 
+    router through the networks that constitute an internetwork (e.g. the Internet) until it reaches its 
+    destination node.
+
+    Modems are used for data transfer from one computer network to another computer network through telephone 
+    lines. THEY ARE USED TO CONNECT THE ROUTERS NETWORK TO THE INTERNET
+
+    Modems can be classified according to the amount of data they can transfer in a second, like Megabytes
+    per second (Mbps)
+
+    Modulator converts information from digital mode to analog mode at the transmitting end and demodulator 
+    converts the same from analog to digital at receiving end. A MODEM HAS BOTH.
+
+HTTP/HTTPS =>
+
+    O protocolo de transferência de hipertexto (HTTP – HyperText Transfer Protocol) é o protocolo padrão para 
+    a Web. Através dele, os navegadores requisitam as páginas da Web e as recebem. Dessa forma, o HTTP define, 
+    entre outras formalidades, como são requisitadas as páginas da Web, como são enviados os dados que o usuário
+    insere em formulários e como o servidor envia mensagens de erro para o navegador do usuário. No entanto, 
+    como o HTTP é um protocolo baseado em texto, ou seja, toda a informação transmitida está em texto, os dados 
+    do usuário e do servidor podem ser interceptados ou alterados no meio do caminho.
+
+    Nesse contexto, um usuário na rede pode interceptar os seus dados e lê-los ou, pior, alterar a página que 
+    você recebe ou a informação que envia para o servidor. De fato, problemas mais graves e imediatos podem 
+    acontecer com transações financeiras, como é o caso de uma transferência bancária. Se o site do banco 
+    fosse com HTTP e um usuário mal-intencionado desejasse alterar uma ordem de transferência para depositar 
+    o dinheiro na conta dele, esse usuário poderia fazer tranquilamente, pois não há nenhum mecanismo de 
+    segurança no protocolo HTTP.
+
+    Com o uso do HTTPS, que é o HTTP seguro, adiciona-se alguns princípios de segurança, como confidencialidade, 
+    integridade e autenticação. Por confidencialidade, entende-se que a mensagem só é lida pelo destinatário 
+    real da mensagem. A integridade representa que a mensagem não foi alterada e o princípio da autenticação 
+    prova que o servidor é realmente quem diz ser. Nesse artigo, apresenta-se, portanto, os mecanismos utilizados 
+    pelo HTTPS para atingir esses três princípios básicos.
+
+    A maioria das explicações resume o HTTPS como um HTTP com o SSL (Secure Sockets Layer) ou, seu sucessor, 
+    o TLS (Transport Layer Security). TLS ou SSL são camadas de segurança que fornecem confidencialidade e 
+    integridade. No entanto, a autenticação dos sites da Web é feita pelos certificados e pela infraestrutura 
+    de chaves públicas da Internet. No entanto, neste artigo, abordaremos as questões mais conceituais. A 
+    base do TLS/SSL e dos certificados da Internet é a criptografia.
+
+    Para a construção de um Website com HTTPS, o administrador do site precisa criar um par de chaves, uma 
+    pública e uma privada. Assim, quando um usuário solicita uma conexão com esse site, o servidor envia a 
+    sua chave pública para o usuário. De posse da chave pública, o usuário pode se comunicar com o servidor, 
+    garantindo que todas as mensagens enviadas para o servidor somente serão lidas pelo servidor, pois apenas 
+    o servidor possui a chave privada. Basta, para isso, que o navegador do usuário encripte todas as 
+    requisições e decripte as respostas recebidas com a chave pública do servidor.
+
+    Dessa forma, garante-se a confidencialidade, pois o usuário tem certeza que apenas o servidor vai receber 
+    suas mensagens e que foi o servidor quem enviou aquela mensagem. De fato, o procedimento na prática é 
+    mais complexo, pois utilizar o par de chaves assimétricas para a troca de dados demanda muito processamento. 
+    Então, no início da conexão, o servidor e o usuário combinam uma chave simétrica única e aleatória para a 
+    conexão. Na prática, é a mesma segurança, pois só os dois conhecem a chave simétrica.
+
+    Para garantir a integridade, o TLS/SSL adiciona a cada mensagem, seja ela requisição ou resposta, um código. 
+    Esse código é denominado MAC (Message Authentication Code) e busca permitir ao destinatário detectar se a 
+    mensagem foi alterada. Seu funcionamento é simples. Calcula-se um resumo (Hash) de cada mensagem e envia-se 
+    esse resumo junto com a mensagem. Assim, quando o destinatário receber a mensagem, deve calcular o mesmo resumo 
+    e verificar se o resumo calculado é igual ao recebido. Se for igual, a mensagem não foi alterada, mas se 
+    for diferente, o destinatário deve descartar a mensagem e pedir uma nova.
+
+    Assim, com o TLS/SSL adicionado ao HTTP, o HTTPS garante tanto a confidencialidade quanto a integridade das requisições 
+    e respostas do protocolo. No entanto, apenas com o TLS/SSL não é possível garantir que o servidor é realmente quem ele 
+    diz ser. Isso ocorre, pois a chave pública é enviada para o navegador pelo próprio servidor Web. Dessa forma, se o usuário 
+    malicioso falar com o usuário como se fosse o servidor, o usuário envia os dados para o usuário malicioso pensando que está 
+    conversando com o servidor legítimo. Para evitar esse problema, na Internet, criou-se uma infraestrutura de 
+    chaves públicas.
+
+    Assim, após criar o seu par de chaves, o administrador do Website deve registrar esse par de chaves em uma 
+    autoridade certificadora da Internet. A autoridade certificadora funciona como um cartório do mundo real 
+    e emite um certificado confirmando que aquela chave pública é realmente do site. Esse processo, nos certificados 
+    mais fortes, envolve, inclusive, o sócio do site indo pessoalmente até a sede da autoridade certificadora portando os 
+    documentos legais da empresa. Dessa forma, quando um site possui um certificado, o navegador o exibe com todas as informações 
+    da empresa que o emitiu.
+
+SERVER/CLIENT =>
+
+    In computing, a server is a computer program or a device that provides functionality for 
+    other programs or devices, called "clients". Servers can provide various functionalities, 
+    often called "services", such as sharing data or resources among multiple clients, or performing 
+    computation for a client.
+
+    A client is a piece of computer hardware or software that accesses a service made available 
+    by a server.
+
+    Client–server systems are today most frequently implemented by (and often identified with) the 
+    request–response model: a client sends a request to the server, which performs some action and 
+    sends a response back to the client, typically with a result or acknowledgment.
+
+ISP =>
+
+    An Internet service provider (ISP) is an organization that provides services for accessing, using, 
+    or participating in the Internet. 
+
+    Like Vero or Net.
+
+    They usually install in your house a router, creating a local network, and a modem, granting it
+    access to the internet
+
+NODE =>
+
+    In data communication, a physical network node may either be data communication equipment (DCE) 
+    such as a modem, hub, bridge or switch; or data terminal equipment (DTE) such as a digital telephone 
+    handset, a printer or a host computer.
+
+POINT-TO-POINT PROTOCOL =>
+
+    Point-to-Point Protocol or PPP is a layer 2 or data link layer protocol that is used to establish a 
+    direct connection between two NODES in a network. It can provide authentication, encryption, and 
+    compression. This protocol is used to create a simple link between two peers in a network to 
+    transport packets.
+
+PACKET =>
+
+    Packet switching is a method of grouping data that is transmitted over a digital network into packets. 
+    Packets are made of a header and a payload. Data in the header is used by networking hardware to direct 
+    the packet to its destination (using IP adress) where the payload is extracted and used by application software.
+
+    The information is separated into many packets to be transmitted. They may go to the destination by different
+    nodes, but they are reassembled the way they were when they arrive the destination
+
+API =>
+    An application programming interface (API) is a computing interface which defines interactions between multiple 
+    software intermediaries. It defines the kinds of calls or requests that can be made, how to make them, the data 
+    formats that should be used, the conventions to follow, etc. 
+    
+    For example, the node.js API in this folder defines how the interaction between the client and the server will 
+    be by providing a set of methods.
+
+    AN API RECEIVES A REQUEST (not necessarily HTTP) AND RETURNS A REPONSE ACCORDING TO IT.
+
+    It’s an intermediate between softwares
+
+    REST =>
+
+        Representational state transfer (REST) is a software architectural style that defines a set of constraints 
+        to be used for creating Web services. 
+
+        ARCHITECTURAL CONSTRAINTS =>
+
+            1. Client Server
+
+                Separation of concerns is the principle behind the client-server constraints. By separating the user 
+                interface concerns from the data storage concerns, we improve the portability of the user interface 
+                across multiple platforms and improve scalability by simplifying the server components.
+
+            2. Stateless
+
+                Statelessness means communication must be stateless in nature as in the client stateless server style, 
+                i.e. Each request from client to server must contain all of the information necessary to understand 
+                the request, and cannot take advantage of any stored context on the server. Session state is therefore 
+                kept entirely on the client.
+
+            3. Cacheable
+
+                In order to improve network efficiency, cache constraints are added to the REST style.
+                
+                Cache constraints require that the data within a response to a request be implicitly or explicitly labeled 
+                as cacheable or non-cacheable. If a response is cacheable, then a client cache is given the right to reuse 
+                that response data for later, equivalent requests.
+
+                The advantage of adding cache constraints is that they have the potential to partially or completely eliminate 
+                some interactions, improving efficiency, scalability, and user-perceived performance by reducing the average 
+                latency of a series of interactions.
+                
+            4. Uniform interface
+
+                The central feature that distinguishes the REST architectural style from other network-based styles is its 
+                emphasis on a uniform interface between components.
+                
+                Resources are just concepts located by URIs. URIs tell client that there’s a concept somewhere. Client then 
+                asks for specific representation of the concept from the representations the server makes available.
+                
+                E.g. Web Page is a representation of a resource
+                
+            5. Layered system
+
+                In order to further improve behavior for Internet-scale requirements, we add layered system constraints.
+
+                The layered system style allows an architecture to be composed of hierarchical layers by constraining component 
+                behavior such that each component cannot “see” beyond the immediate layer with which they are interacting.
+                
+            6. Code on demand
+
+                The final addition to our constraint set for REST comes from the code-on-demand style.
+
+                REST allows client functionality to be extended by downloading and executing code in the form of applets or scripts.
+
+                This simplifies clients by reducing the number of features required to be pre-implemented. Allowing features to be 
+                downloaded after deployment improves system extensibility.
+
+MULTITASKING =>
+
+    In computing, multitasking is the concurrent execution of multiple tasks (also known as processes) over a certain period of time. 
+    New tasks can interrupt already started ones before they finish, instead of waiting for them to end. As a result, a computer 
+    executes segments of multiple tasks in an interleaved manner, while the tasks share common processing resources such as central 
+    processing units (CPUs) and main memory. Multitasking automatically interrupts the running program, saving its state (partial 
+    results, memory contents and computer register contents) and loading the saved state of another program and transferring control 
+    to it.
+
+PROCESS =>
+
+    In computing, a process is the instance of a computer program that is being executed by one or many threads. It contains the program 
+    code and its activity. Depending on the operating system (OS), a process may be made up of multiple threads of execution that execute 
+    instructions concurrently.
+
+    While a computer program is a passive collection of instructions, a process is the actual execution of those instructions. Several 
+    processes may be associated with the same program; for example, opening up several instances of the same program often results in 
+    more than one process being executed.
+
+THREAD =>
+
+    In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently 
+    by a scheduler, which is typically a part of the operating system.[1] The implementation of threads and processes differs between 
+    operating systems, but in most cases a thread is a component of a process. Multiple threads can exist within one process, executing 
+    concurrently and sharing resources such as memory, while different processes do not share these resources. In particular, the threads 
+    of a process share its executable code and the values of its dynamically allocated variables and non-thread-local global variables at 
+    any given time.
+
+    MULTI VS SINGLE THREAD =>
+
+        Systems with a single processor generally implement multithreading by time slicing: the central processing unit (CPU) switches 
+        between different software threads. This context switching generally happens very often and rapidly enough that users perceive 
+        the threads or tasks as running in parallel. On a multiprocessor or multi-core system, multiple threads can execute in parallel, 
+        with every processor or core executing a separate thread simultaneously.
+
+        JAVASCRIPT IS SINGLE-THREADED EXECUTED.
+
+BROWSER =>
+
+    A web browser (commonly referred to as a browser) is a software application for accessing information
+    on the World Wide Web. When a user requests a particular website, the web browser retrieves the 
+    necessary content from a web server and then displays the resulting web page on the user's device.
+
+    The purpose of a web browser is to fetch information resources from the Web and display them on a 
+    user's device.
+
+    This process begins when the user inputs a Uniform Resource Locator (URL), such as https://en.wikipedia.org/, 
+    into the browser. Virtually all URLs on the Web start with either http: or https: which means the 
+    browser will retrieve them with the Hypertext Transfer Protocol (HTTP). In the case of HTTPS:, the 
+    communication between the browser and the web server is encrypted for the purposes of security and 
+    privacy.
+
+    Once a web page has been retrieved, the browser's rendering engine displays it on the user's device. 
+    This includes image and video formats supported by the browser.
+
+    Web pages usually contain hyperlinks to other pages and resources. Each link contains a URL, and when 
+    it is clicked or tapped, the browser navigates to the new resource. Thus the process of bringing 
+    content to the user begins again.
+
+    INTERPRETER/COMPILER =>
+
+        In computer science, an interpreter is a computer program that directly executes instructions written
+        in a programming or scripting language, without requiring them previously to have been compiled 
+        into a machine language program. 
+        
+        IN THIS MODEL, THE INTERPRETER GOES BLINDLY THROUGH EVERY LINE OF CODE, EXECUTING IT
+
+        A compiler is a computer program that translates computer code written in one programming language 
+        (the source language) into another language (the target language). The name compiler is primarily 
+        used for programs that translate source code from a high-level programming language to a lower level 
+        language (e.g., assembly language, object code, or machine code) to create an executable program.
+
+        IN THIS MODEL, THE COMPILER COMPILES THE WHOLE CODE BEFORE EXECUTING IT
+
+        THESE TO MODELS DO NOT EXCLUDE EACH OTHER, AS INTERPRETERS USUALLY ALSO DO TRANSLATION WORK, JUST AS 
+        COMPILERS
+
+        Interpreters and compilers are very similar in structure. The main difference is that an interpreter 
+        directly executes the instructions in the source programming language while a compiler translates 
+        those instructions into efficient machine code.
+
+        JUST-IN-TIME COMPILATION =>
+
+            In computing, just-in-time compilation (JIT) (also dynamic translation or run-time compilation) 
+            is a way of executing computer code that involves compilation during execution of a program             
+            – at run time – rather than before execution. Most often, this consists of source code or 
+            more commonly bytecode translation to machine code, which is then executed directly. A system 
+            implementing a JIT compiler typically continuously analyses the code being executed and identifies 
+            parts of the code where the speedup gained from compilation or recompilation would outweigh the 
+            overhead of compiling that code.
+
+            THIS IS FASTER THAN THE OTHER MODELS
+
+    COOKIES =>
+
+        A cookie is a simple text file that is created when you visit websites on the internet. Cookies allow a 
+        website to store data regarding your activity (only on that website) so that you can later retrieve it 
+        and get a more personalized experience.
+
+        When you navigate to a website, you make a request from your browser to the server for its data. The 
+        server sends you the data and includes with it a small file, comprised of a string of text, that it enters 
+        into your browser’s memory. Then when you visit other pages on the website, the server recognizes you as 
+        the same user from the first page.
+
+        Google uses cookies to create a display a search history for example, saving in cookies your most common
+        and recent requests. So when you start writing the same URL again, it fills it for you.
+
+        FIRST AND THIRD-PARTY COOKIES =>
+
+            First-party cookies are stored by the domain (website) you are visiting directly. They allow website owners 
+            to collect analytics data, remember language settings, and perform other useful functions that help provide 
+            a good user experience.
+
+            Third-party cookies are created by domains other than the one you are visiting directly, hence the name 
+            third-party. They are used for cross-site tracking, retargeting and ad-serving.
+
+            Just in case you were wondering, the existence of second-party cookies is a subject of contention. Second-party 
+            cookies are cookies that are transferred from one company (the one that created first-party cookies) to another 
+            company via some sort of data partnership. For example, an airline could sell its first-party cookies (and other 
+            first-party data such as names, email addresses, etc.) to a trusted hotel chain to use for ad targeting, which 
+            would mean the cookies become classed as second-party.
+
+        HOW THIRD-PARTY COOKIES ARE CREATED =>
+
+            In order for a third-party cookie to be created, a request needs to be sent from the web page to the third party’s 
+            server. The file being requested is different depending on the use, but it can be an actual creative (an ad) or 
+            a tracking pixel, which is completely invisible to the user but acts as a tracking cookie in situations when 
+            there is no click event (for instance, when just a web page is opened) and click redirects cannot be used.
+
+            For example, if the third party was an advertising service like DoubleClick by Google, the request would be for a 
+            creative – the actual ad the visitor sees.
+
+        EXAMPLES OF THIRD-PARTY COOKIES =>
+
+            AD-RETARGETING SERVICES =>
+                
+                Ad retargeting involves following website visitors who have previously visited your website around the web and 
+                showing them ads for the products or services they’ve viewed or interacted with previously. Retargeting works 
+                across different channels, including social media, display, and email.
+
+                Website owners place a 1×1 transparent pixel on their site, which sends a request to the ad-retargeting server when 
+                the page loads. The server then returns the requested information (typically containing some JavaScript) so that 
+                they can assign a cookie to the user and retarget them later on other websites.
+
+            SOCIAL BUTTONS =>
+
+                Most social-media plugins that enable users to log in, share and like content on third-party websites will place 
+                cookies on your device.
+
+                In this way, the social-media sites that these cookies come from can track the sites you visit and send you relevant 
+                ads when you go back to these social media sites. Even if you are not signed in to your account, these cookies will 
+                still follow you by identifying your cookies, using deterministic matching, and sometimes fingerprinting your device 
+                to identify you.
+
+            USAGE EXAMPLE =>
+
+                If a user visits bestbuy.com and clicks on a product, third-party trackers will collect and analyze the information 
+                about that user and their activity on bestbuy.com. Then, if that user leaves bestbuy.com and accesses a different 
+                website, such as techcrunch.com, the user could be shown an ad for that exact same product or something similar 
+                (e.g. another TV or another electrical product).
+
+                The way it works is that both bestbuy.com and techcrunch.com load a piece of code from an ad server (e.g. ad.doubleclick.net). 
+                When the user navigates to either website, the piece of code loaded from ad.doubleclick.net is from a different domain 
+                than the URL in the user’s browser, so the cookies set in ad.doubleclick.net are considered third-party cookies.
+
+                Cookies can be set and read by the web server or by a piece of JavaScript running on the website. Software like Ghostery 
+                or AdBlock Plus can block these scripts – more on that below.
+
+
+    JAVASCRIPT =>
+
+        Computers don’t understand JavaScript — browsers do.
+
+        Besides handling network requests, listening to mouse clicks, and interpreting HTML and CSS to draw 
+        pixels on the screen, the browser has a JavaScript engine built-in.
+
+        The JavaScript engine is a program, written in, let’s say, C++, which goes through all the JavaScript 
+        code, character by character, and “transforms” it into something that the computer’s CPU can understand 
+        and execute — machine code.
+
+        This happens synchronously, meaning one line at a time, and in order.
+
+
+        V8 => 
+            
+            V8 is a JavaScript engine mostly common in browsers that uses the JIT model, which Google open-sourced 
+            in 2008. In 2009, a guy named Ryan Dahl had the idea to use V8 to create Node.js, a run time environment 
+            for JavaScript outside the browser, which meant the language could also be used for server-side applications.
+
+        FUNCTION EXECUTION CONTEXT =>
+
+            When the engine transforms the JavaScript code to machine code, it needs to consider the specifications.
+
+            What if the code contains an illegal assignment, or it tries to access a variable, which, according to 
+            the specification of the language, should not be accessible from that particular part of the code?
+            
+            Every time a function is invoked, it needs to figure all these things out. It achieves this by creating 
+            a wrapper, called execution context.
+
+            It determines things, such as: “Which variables are accessible in that particular function, what is the 
+            value of 'this' inside it, which variables and functions are being declared inside it?”
+
+        GLOBAL EXECUTION CONTEXT =>
+
+            There can also be code outside of any function, at the global level, so one of the very first things that 
+            the JavaScript engine does is to create a global execution context.
+
+            Its like the function execution context.
+
+            The global execution context creates two things, which are specific to it, even if there is no code to 
+            execute:
+
+                A global object. This object is the WINDOW object when JavaScript runs inside a browser. When it runs 
+                outside of it, as it does in the case of Node.js, it will be something like global.
+                
+                A special variable called THIS that references the window.
+
+                All JavaScript built-in variables and functions are attached to the global window object: setTimeout(), 
+                localStorage, scrollTo(), Math, fetch(), etc. This is why they are accessible anywhere in the code.
+
+        EXECUTION STACK =>
+
+            We know that a function execution context is created every time a function is invoked. Have a look at the 
+            following example:
+
+
+                function a() {
+                    // some code
+                }
+
+                function b() {
+                    // some code
+                }
+
+                a();
+                b();
+                
+
+            When the invocation of function a() is encountered, a function execution context is created as described above, 
+            and the code inside the function is executed.
+                        
+            When the execution of the code is finished (a return statement or the enclosing } of the function is reached), 
+            the function execution context for function a() is destroyed.
+
+            Then, the invocation of b() is encountered and the same process is repeated for function b().
+            But’s that’s rarely the case, even in very simple JavaScript programs. Most of the time, there will be functions 
+            that are invoked inside other functions:
+
+                        
+                function a() {
+                    // some code
+                    b();
+                    // some more code
+                }
+
+                function b() {
+                    // some code
+                }
+
+                a();
+
+
+            In this case, a function execution context for a() is created but, right in the middle of a()’s execution, b()’s 
+            invocation is encountered.
+
+            A brand new function execution context is created for b(), but without destroying a()’s execution context, as its 
+            code is not completely executed.
+
+            THIS MEANS THAT THERE ARE MANY FUNCTION EXECUTION CONTEXTS AT THE SAME TIME. 
+            
+            HOWEVER, ONLY ONE OF THEM IS RUNNING AT ANY GIVEN TIME.
+
+            TO KEEP TRACK OF WHICH ONE IS CURRENTLY RUNNIG, A STACK IS USED, where the currently running function execution 
+            context is at the top of the stack.
+
+            Once it finishes executing, it will be popped from the stack, the execution for the next execution context will 
+            resume, and so on, until the execution stack is empty.
+
+            When the execution stack is empty, the global execution context, which we discussed previously and which is 
+            never destroyed, becomes the currently running execution context.
+
+        WEB APIs =>
+
+            When writing code for the Web, there are a large number of Web APIs available. For example, the API EventTarget
+            has a set o methods, such as AddEventListener(), that are common in javascript development.
+
+            Web APIs are typically used with JavaScript, although this doesn't always have to be the case.
+
+            THE WEB APIS ARE BUILT INTO THE BROWSER
+        
+        EVENT QUEUE =>
+
+            When a Web API method is used in javascript, such as fetch(), setTimeout() or a HTTP request, the engine will 
+            actually communicate to other components of the browser, such as the network layer in the case of fetch() or HTTP requests.
+            Any event or response that comes from these components will be passed to the engine.
+
+            But this can take seconds, what does the JavaScript engine do while the request is in progress?
+
+            Simply stop executing any code until the response comes? Continue executing the rest of the code, and, whenever the 
+            response comes, stop everything and execute its callback? And when the callback finishes, resume execution wherever 
+            it left off?
+            
+            None of the above, even though the first could be achieved by using await.
+
+            In multi-threaded languages, this could be handled by having one thread for executing the code in the currently running 
+            execution context, and another one to execute the callback for the event. But this is not possible with JavaScript as it 
+            is single-threaded.
+
+            Any event that the JavaScript engine receives from the other components of the browser, like a mouse click or a network 
+            response, will not be handled immediately.
+            
+            The JavaScript engine might be busy executing code at that point, so it will instead place the event in a queue, called 
+            the event queue, and the rest of the code continues to be executed normally.
+
+            While there is code to execute on the execution stack, the events in the event queue are ignored, as the engine is busy 
+            executing the code on the stack.
+            
+            Only when it finishes, and the execution stack is empty, will the JavaScript Engine handle the next event in the event 
+            queue (if there is one, of course), and will invoke its handler.
+            
+            Note: The code that is placed into the event queue is referred to as ASYNCHRONOUS. Whether or not that’s a good term is 
+            a different topic but that’s what people call it, so I guess you have to get used to it.
+
+
+
+
+
