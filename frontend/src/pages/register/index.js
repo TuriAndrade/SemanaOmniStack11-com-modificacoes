@@ -25,7 +25,7 @@ export default function Register(){
                         </div>
                         <p>Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG.</p>
                         <div className="u-margin-top-small">
-                            <Link className="link" to="/logon">
+                            <Link className="link" to="/">
                                 <FiArrowLeft className="u-font-size-icon-small" color="#e02041"/>Fazer logon
                             </Link>
                         </div>

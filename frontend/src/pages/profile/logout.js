@@ -178,7 +178,7 @@ export default function Logout(props){
 
         if(shouldRedirect){
             setTimeout(()=>{
-                history.push('/logon');
+                history.push('/');
             },1500);
         }
 

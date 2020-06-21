@@ -43,7 +43,7 @@ export default function Routes(){
     return(
         <BrowserRouter>
             <Switch>
-                <PublicRoute cookieMsgDisplay={cookieMsgDisplay} setCookieMsgDisplay={setCookieMsgDisplay} key='logon' restricted={true} path='/logon' component={Logon}/>
+                <PublicRoute cookieMsgDisplay={cookieMsgDisplay} setCookieMsgDisplay={setCookieMsgDisplay} key='logon' restricted={true} exact path='/' component={Logon}/>
                 <PublicRoute cookieMsgDisplay={cookieMsgDisplay} setCookieMsgDisplay={setCookieMsgDisplay} key='register' restricted={true} path='/register' component={Register}/>
                 <PrivateRoute key='profile' path='/profile' component={Profile}/>
                 <PrivateRoute key='newIncident' path='/incidents/new' component={NewIncident}/>

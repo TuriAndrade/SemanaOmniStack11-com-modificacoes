@@ -40,7 +40,7 @@ export default function PrivateRoute({component: Component, ...rest}){
             <Route {...rest} render={routeProps => (
                 isAuthenticated ?
                     <Component antiCsrfToken = {isAuthenticated} {...routeProps} />
-                : <Redirect to="/logon" />
+                : <Redirect to="/" />
             )} />
         );
     }
