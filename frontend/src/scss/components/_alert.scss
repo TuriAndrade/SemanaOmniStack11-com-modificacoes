@@ -1,0 +1,29 @@
+.alert{
+    background-color: transparent;
+    font-weight: 300;
+    border-radius: .6rem;
+    padding: 5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+    overflow: hidden;
+
+    overflow-wrap:break-word;
+    word-break: break-word;
+
+    /*
+        Both overflow-wrap and word-break have similar functions, but the first works for
+        the most usual languages and the second for chinese, japanese and korean
+    */
+
+    &--red{
+        border: 2px solid $color-red;
+        color: $color-red;
+    }
+
+    &--green{
+        border: 2px solid $color-green;
+        color: $color-green;
+    }
+}

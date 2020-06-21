@@ -1,0 +1,14 @@
+.message{
+    background-color: rgba($color-white, .9);
+    padding: 5rem 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center; //apesar do padding, ele alinha inline elements em sua linha(tipo vertical align)
+    position: fixed;
+    z-index: 500;
+    bottom: 0;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 1s;
+}

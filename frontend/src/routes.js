@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, {useState} from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom';
 
 /*
     React pages are dinamically rendered(not server rendered)
@@ -28,15 +28,42 @@ import Register from './pages/register';
 import Profile from './pages/profile';
 import NewIncident from './pages/newIncident';
 
+import PublicRoute from './components/publicRoute';
+import PrivateRoute from './components/privateRoute';
+
 export default function Routes(){
+
+    const [cookieMsgDisplay, setCookieMsgDisplay] = useState(true);
+
+    /*
+        Como as rotas são remontadas quando mudam, o display da msg de cookies tem que ser definido
+        aqui, para não ficar repetitivo.
+    */
+
     return(
         <BrowserRouter>
             <Switch>
-                <Route exact path='/' component={Logon}></Route>
-                <Route path='/register' component={Register}></Route>
-                <Route path='/profile' component={Profile}></Route>
-                <Route path='/incidents/new' component={NewIncident}></Route>
+                <PublicRoute cookieMsgDisplay={cookieMsgDisplay} setCookieMsgDisplay={setCookieMsgDisplay} key='logon' restricted={true} path='/logon' component={Logon}/>
+                <PublicRoute cookieMsgDisplay={cookieMsgDisplay} setCookieMsgDisplay={setCookieMsgDisplay} key='register' restricted={true} path='/register' component={Register}/>
+                <PrivateRoute key='profile' path='/profile' component={Profile}/>
+                <PrivateRoute key='newIncident' path='/incidents/new' component={NewIncident}/>
             </Switch>
         </BrowserRouter>
     );
 }
+
+/*
+    If the component from the route /profile is displayed and /profile/logout is acessed, even if 
+    the authentication fails, the component from /profile/logout will be displayed.
+    This happens because /profile/logout is out of the switch, due to interface concerns, and
+    the authentication already succeded in /profile.
+
+    Though, if someone tries to access /profile/logout directly, the authentication will run
+*/
+
+/*
+    Switches only display one route at a time. If they change, react doesn't underestand the new route
+    as a new component, only as an update of the props of the previous route.
+
+    As I want them to remount, not update, I added keys
+*/

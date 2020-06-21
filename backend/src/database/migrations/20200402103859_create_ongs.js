@@ -1,7 +1,8 @@
 
 exports.up = function(knex) { //usado para criar tabelas
   return knex.schema.createTable('ongs', function(table){
-    table.string('login').primary();
+    table.increments('id').primary();
+    table.string('login').notNullable().unique();
     table.string('password').notNullable();
     table.string('name').notNullable();
     table.string('email').notNullable();

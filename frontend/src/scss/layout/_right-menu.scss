@@ -1,0 +1,230 @@
+.right-menu{
+    &__checkbox{
+        display: none;
+    }
+
+    &__close-area{
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba($color-black, .8);
+        visibility: hidden;
+        opacity: 0;
+        transition: all .4s;
+        z-index: 170;
+    }
+
+    &__button{
+        backface-visibility: hidden;
+        height: 7rem;
+        width: 7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100rem;
+        position: fixed;
+        top: 6rem;
+        left: 6rem;
+        background-color: $color-white;
+        box-shadow: 0 1rem 3rem rgba($color-black, .15);
+        z-index: 110;
+        cursor: pointer;
+        transition: all .3s;
+        /* The dimensions were designed to cover the background completely*/
+
+        @include respond(tab-port){
+            top: 3.7rem;
+            left: 3.7rem;
+        }
+
+        @include respond(phone){
+            top: 3rem;
+            left: 3rem;
+        }
+    }
+
+    &__background{
+        z-index: 175;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition: all .3s ease-out;
+        background-color: rgba($color-black, .8);
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+        max-width: 100%;
+    }
+
+    &__checkbox:checked ~ &__background{
+        transform: translateX(0);
+    }
+
+    &__checkbox:checked ~ &__close-area{
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &__close-btn{
+        background-color: $color-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 4rem;
+        height: 4rem;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-bottom-left-radius: 100rem;
+        border-bottom-right-radius: 100rem;
+        border: none;
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .2);
+        z-index: 200;
+    }
+
+    &__content{
+        padding: 7rem 4rem 0 4rem;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+
+        &::-webkit-scrollbar {
+            width: 1.2rem;
+        }
+         
+        /* Track */
+        &::-webkit-scrollbar-track {
+            border-radius: 1rem;
+        }
+         
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            box-shadow: inset 0 0 .6rem rgba($color-black, .2);
+            border-radius: 1rem;
+            background: rgba($color-white, .3);
+        }
+        &::-webkit-scrollbar-thumb:window-inactive {
+            background: rgba($color-white, .1);
+        }
+    }
+
+    &__icon{
+        font-size: 2rem;
+        transition: all .1s;
+
+        &--pointer{
+            cursor: pointer;
+        }
+    }
+
+    &__button:hover &__icon,
+    &__close-btn:hover &__icon{
+        font-size: 2.2rem;
+    }
+
+    &__list{
+        list-style: none;
+    }
+
+    &__list-item{
+        position: relative;
+        padding: .5rem;
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child){
+            margin-bottom: .5rem;
+        }
+
+        &--left{
+            margin-right: 3rem;
+        }
+
+        &--middle{
+            display: flex;
+            flex-direction: column;
+            margin-right: 4rem; //important so this div doesn't overlap the next one, that is abslute positioned
+        }
+
+        &--right{
+            position: absolute;
+            right: 0;
+
+            @include respond(tab-port){
+                display: none;
+            }
+        }
+
+        &--error{
+            &:not(:last-child){
+                margin-bottom: 3.5rem !important;
+            }
+        }
+    }
+
+    &__edit-checkbox{
+        display: none;
+    }
+
+    &__edit-label{
+        cursor: pointer;
+    }
+
+    &__edit-button{
+        transition: background-color .5s;
+    }
+
+    &__list-label{
+        font-weight: 700;
+        font-size: 2rem;
+        color: $color-white;
+    }
+
+    &__list-text{
+        font-weight: 300;
+        font-size: 1.7rem;
+        color: rgba($color-white, .7);
+        overflow: hidden;
+        overflow-wrap:break-word;
+        word-break: break-word;
+        max-width: 60rem;
+
+        /*
+            Both overflow-wrap and word-break have similar functions, but the first works for
+            the most usual languages and the second for chinese, japanese and korean
+        */
+    }
+
+    &__logo-box{
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        padding: 4rem 0;
+
+        img{
+            width: 60%;
+            filter: brightness(100) grayscale(100%); //grayscale takes care of some red pixels in the contours
+        }
+    }
+
+    &__tab-port-popup-button{
+        margin-top: 2rem;
+        display: none;
+
+        @include respond(tab-port){
+            display: block;
+        }
+    }
+
+    &__form{
+        @include respond(tab-port){
+            display: none;
+        }
+    }
+}

@@ -6,7 +6,7 @@
 */
 .btn-icon{
     display: inline-flex;
-    border: .1rem solid $color-grey-light-2;
+    border: 1px solid $color-grey-light-2;
     justify-content: center;
     align-items: center;
     width: 5.2rem;
@@ -34,10 +34,8 @@
 
 .btn{
     display: inline-block;
-    background-color: $color-red;
     border: none;
     border-radius: .8rem;
-    color: $color-white;
     font-weight: 700;
     padding: 1.2rem 3rem;
     text-align: center;
@@ -48,24 +46,20 @@
     &:hover{
         filter:brightness(90%);
     }
-}
 
-.btn-100{
-    width: 100%;
-    display: block;
-    background-color: $color-red;
-    border: none;
-    border-radius: .8rem;
-    color: $color-white;
-    font-weight: 700;
-    padding: 1.2rem 0;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.8rem;
-    transition: all 0.2s;
+    &--red{
+        background-color: $color-red;
+        color: $color-white;
+    }
 
-    &:hover{
-        filter:brightness(90%);
+    &--white{
+        background-color: $color-white;
+        color: $color-red;
+    }
+
+    &--100{
+        width: 100%;
+        display: block;
     }
 }
 
@@ -86,5 +80,63 @@
 
     svg{
         margin-right: .8rem;
+    }
+}
+
+.link-text {
+    &:link,
+    &:visited{
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        border-bottom: 2px solid;
+        transition: all .2s;
+    }
+
+    &--red{
+        color: $color-red;
+        border-color: $color-red;
+        &:hover{
+            background-color: $color-red;
+            color:$color-white;
+            border-color: $color-red;
+        }
+    }
+
+    &:hover{
+        transform: skewY(-2deg) scale(1.05);
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .3);
+    }
+}
+
+.link-text-2{
+    &:link,
+    &:visited{
+        display: inline-block; //<a/> are inline and transforms don't work well with inline elements
+        font-size: 3rem;
+        font-weight: 300;
+        color: $color-white;
+        text-decoration: none;
+        text-transform: uppercase;
+        background-image: linear-gradient(120deg, transparent 0% 50%, $color-white 50%);
+        padding: 0.7rem 1.5rem;
+        transition: all .8s;
+        background-size: 300% 200%; //width and height
+        background-position: 0%;
+
+        /*
+            backgroung-size:100% is the same as 'cover'. Increasing this value makes the background grow
+            but it's only visible in it's box limits, and decreasing it makes it repeat to cover the box
+        
+            It was necessary to increase it more than 100% (making it 200%) because of the 120deg rotation
+            This way, is completely vanishes at position 0% and covers 100% of the item at position 100%
+        */
+        
+        &:hover,
+        &:active{
+            color: $color-red;
+            background-position: 100%;
+            transform: translateX(1rem);
+        }
     }
 }

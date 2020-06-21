@@ -1,23 +1,19 @@
 const connection = require('../database/connection');
 const utils = require('../utils');
-const jwt = require('jsonwebtoken');
 const redis = require('../database/redis');
-const {promisify} = require('util');
-const redisTTL = promisify(redis.ttl).bind(redis);
 
 module.exports = {
     async create(request,response){
-        const { login } = request.body;
-        const { password } = request.body;
+        const { login, password } = request.body;
 
-        const queryLogin = await connection('ongs').where('login',login).select('name').first();
+        const queryLogin = await connection('ongs').where('login',login).select('id').first();
 
         if(!queryLogin){
             return response.status(400).json({error:"No ONG found with this login"});
         }else{
-            const queryPassword = await connection('ongs').where({login:login,password:password}).select('login','name','city','uf').first(); 
+            const queryPassword = await connection('ongs').where({login:login,password:password}).select('id').first(); 
             /*
-                Each result of this query would be an JSON object containing the login and the name
+                Each result of this query would be an JSON object containing the id
 
                 The select returns an array containing all the the JSON objects
 
@@ -27,14 +23,23 @@ module.exports = {
             if(!queryPassword){
                 return response.status(400).json({error:"Incorrect password"});
             }else{
-                const token = utils.generateTokenOng(queryPassword);
 
-                return response.cookie('token', token, { //this overwrites any other cookie with the same name
-                    httpOnly:true, //httpOnly cookies can not be accessed in the browser, so they are safe against XSS attacks
-                    expires: new Date(Number(utils.decode(token).exp)*1000) //the value is a date equal to the token expiration date parsed to ms
-                }).json({
-                    token:token,
-                    name:queryPassword.name
+                redis.get(queryPassword.id, async (error, result)=>{
+                    if(error){
+                        return response.status(400).json({error});
+                    }else{
+                        const obj = {
+                            id:queryPassword.id,
+                            generation: Number(result) + 1
+                        }
+        
+                        const token = utils.generateToken(obj, process.env.JWT_AUTHENTICATION, 60*60*24*7); //7 dias
+        
+                        return response.cookie('token', token, { //this overwrites any other cookie with the same name
+                            httpOnly:true, //httpOnly cookies can not be accessed in the browser, so they are safe against XSS attacks
+                            expires: new Date(Number(utils.decode(token).exp)*1000) //the value is a date equal to the token expiration date parsed to ms
+                        }).status(200).send();
+                    }
                 });
 
                 /*  
@@ -51,39 +56,63 @@ module.exports = {
         }
     },
 
-    async delete(request,response){
-        jwt.verify(request.token, process.env.JWT_SECRET, function (err, ong){
-            if(err){ //fires if token doesn't exists
-                return response.status(401).json({error:"Invalid token"});
-            }else if(utils.decode(request.token).iat > request.app.get('timestamp')){ //request.app holds a reference to the instance of the Express application that is using the middleware.
-                
-                /*
-                    Essa condição invalida todos os tokens que foram criados antes do deploy do servidor
-                */
-                
-                redis.get(ong.login, async (error, result)=>{
+    async delete(request, response){
+        return response.status(204).clearCookie('token').send();
+    },
 
-                    if(error){
-                        return response.status(400).json({error});
-                    }else{
-                        if(utils.decode(request.token).iat > Number(result)){ //if no data matches the ong.login, result will be null and this condition will be true
-                    
-                            redis.setex(ong.login, (utils.decode(request.token).exp - utils.decode(request.token).iat), utils.decode(request.token).iat, async (error, result)=>{
-                                if(error){
-                                    return response.status(400).json({error});
-                                }else{
-                                    return response.json({result})    
-                                }
-                            });
-                        }else{
-                            return response.status(401).json({error:"Blacklisted token"});
-                        }
-                    }
-                });
+    async deleteAll(request,response){
 
-            }else{
-                return response.status(401).json({error:"Old token"});
+        const ong = request.ong;
+
+        const { password } = request.body;
+
+        const checkPassword = await connection('ongs').where({id:ong.id,password:password}).select('id').first(); 
+
+        if(checkPassword){
+            redis.set(ong.id, ong.generation, (error, result)=>{
+                                    
+                if(error){
+                    return response.status(400).json({error});
+                }else{
+                    return response.status(204).clearCookie('token').send();    
+                }
+            });
+        }else{
+            return response.status(401).json({error:"Incorrect password"});
+        }
+    },
+
+    async authentication(request,response){
+        const ong = request.ong; // ong é o objeto JSON retornado pelo jwt.verify
+            
+        const exists = await connection('ongs').where('id', ong.id).select('id').first();
+
+        if(exists){ //not really necessary, because if the token didn't exist the err would have caught it
+            
+            const csrfObj = {
+                id:ong.id
             }
-        });
+
+            const authObj = {
+                id:ong.id,
+                generation:Number(ong.generation)
+            }
+        
+            const antiCsrfToken = utils.generateToken(csrfObj, process.env.JWT_ANTICSRF, 60*20);
+
+            const token = utils.generateToken(authObj, process.env.JWT_AUTHENTICATION, 60*60*24*7); //7 dias
+
+            return response.cookie('token', token, { //this overwrites any other cookie with the same name
+                httpOnly:true, //httpOnly cookies can not be accessed in the browser, so they are safe against XSS attacks
+                expires: new Date(Number(utils.decode(token).exp)*1000) //the value is a date equal to the token expiration date parsed to ms
+            }).json({
+                antiCsrfToken
+            });
+
+        }else{
+            return response.status(401).json({
+                error:"No ONG found with this id"
+            })
+        }
     }
 }

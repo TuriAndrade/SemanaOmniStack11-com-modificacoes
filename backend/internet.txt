@@ -144,6 +144,20 @@ PACKET =>
     The information is separated into many packets to be transmitted. They may go to the destination by different
     nodes, but they are reassembled the way they were when they arrive the destination
 
+PROXY => 
+
+    In computer networking, a proxy server is a server application or appliance that acts as an intermediary for 
+    requests from clients seeking resources from servers that provide those resources. A proxy server thus functions 
+    on behalf of the client when requesting service, potentially masking the true origin of the request to the resource 
+    server.
+
+    Instead of connecting directly to a server that can fulfill a requested resource, such as a file or web page for 
+    example, the client directs the request to the proxy server, which evaluates the request and performs the required 
+    network transactions. This serves as a method to simplify or control the complexity of the request, or provide 
+    additional benefits such as load balancing, privacy, or security. 
+
+    Criminal users for instance might use many proxys to hide themselves.
+
 API =>
     An application programming interface (API) is a computing interface which defines interactions between multiple 
     software intermediaries. It defines the kinds of calls or requests that can be made, how to make them, the data 
@@ -306,6 +320,145 @@ BROWSER =>
             overhead of compiling that code.
 
             THIS IS FASTER THAN THE OTHER MODELS
+
+    DOM (DOCUMENT OBJECT MODEL) =>
+
+        The Document Object Model (DOM) is a cross-platform and language-independent interface that treats 
+        an XML or HTML document as a tree structure wherein each node is an object representing a part of 
+        the document. The DOM represents a document with a logical tree. Each branch of the tree ends in a 
+        node, and each node contains objects. DOM methods allow programmatic access to the tree, with them 
+        one can change the structure, style or content of a document. Nodes can have event handlers attached 
+        to them. Once an event is triggered, the event handlers get executed.
+
+        DOCUMENT =>
+
+            The Document interface represents any web page loaded in the browser and serves as an entry point 
+            into the web page's content, which is the DOM tree. The DOM tree includes elements such as <body> 
+            and <table>, among many others. It provides functionality globally to the document, like how to 
+            obtain the page's URL and create new elements in the document.
+
+        DOM TREE =>
+
+            Any HTML document (or for that matter any SGML document or XML document) is a tree structure. 
+
+
+            
+            Ex: 
+
+                NODE 0: DOCUMENT OBJECT
+
+                    NODE 1
+                    <html lang="en">   OBJECT HTML
+
+                        NODE 2
+                        <head>   OBJECT HEAD
+
+                            NODE 3
+                            <meta charset="utf-8" />   OBJECT CHARSET
+
+                            NODE 4
+                            <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />   OBJECT LINK
+
+                            NODE 5
+                            <meta name="viewport" content="width=device-width, initial-scale=1" />   OBJECT VIEWPORT
+
+                            NODE 6
+                            <meta name="theme-color" content="#000000" />   OBJECT THEME
+
+                            NODE 7
+                            <title>Be The Hero</title>   OBJECT TITLE
+                        </head>
+
+                        NODE 8
+                        <body>  OBJECT TITLE
+
+                            NODE 9
+                            <div id="root"></div>   OBJECT DIV
+
+                        </body>
+                    </html>
+
+
+
+                The nodes have a parent-child relationship: the node on top is the parent, and the node on the bottom 
+                is the child. Two children of the same parent are therefore siblings. Similarly, one can refer to ancestors 
+                and descendants.
+
+                In this case, it goes like this:
+
+                    NODE 0
+                    |
+                    |=> NODE 1 
+                        |
+                        |=> NODE 2
+                        |   |
+                        |   |=> NODE 3
+                        |   |
+                        |   |=> NODE 4
+                        |   |
+                        |   |=> NODE 5
+                        |   |
+                        |   |=> NODE 6
+                        |   |
+                        |   |=> NODE 7
+                        |
+                        |=> NODE 8
+                            |
+                            |=> NODE 9
+
+
+                The structures connecting the nodes are the BRANCHES mentioned above.
+
+                Each node contains/is objects, such as, but not exclusively, HTML elements.
+
+        EVENTS =>
+
+            The Event interface represents an event which takes place in the DOM.
+
+            An event can be triggered by the user action e.g. clicking the mouse button or tapping keyboard, or 
+            generated by APIs to represent the progress of an asynchronous task. It can also be triggered 
+            programmatically, such as by calling the HTMLElement.click() method of an element, or by defining the 
+            event, then sending it to a specified target using EventTarget.dispatchEvent().
+
+            There are many types of events, some of which use other interfaces based on the main Event interface. 
+            Event itself contains the properties and methods which are common to all events.
+
+            Many DOM elements can be set up to accept (or "listen" for) these events, and execute code in response 
+            to process (or "handle") them. Event-handlers are usually connected (or "attached") to various HTML 
+            elements (such as <button>, <div>, <span>, etc.) using EventTarget.addEventListener(), and this generally 
+            replaces using the old HTML event handler attributes. Further, when properly added, such handlers can 
+            also be disconnected if needed using removeEventListener().
+
+        WEB BROWSERS =>
+
+            Browsers use the DOM model to render HTML pages. The DOCUMENT represents the page and the HTML content
+            is organized in a tree structure (DOM TREE), with the topmost node named DOCUMENT OBJECT.
+
+            When an HTML page is rendered in browsers, the browser downloads the HTML into local memory and automatically 
+            parses it to display the page on screen.
+
+            LAYOUT ENGINES =>
+
+                Web browsers rely on layout engines to parse HTML into a DOM.
+
+        JAVASCRIPT =>
+
+            Javascript interacts with the DOCUMENT OBJECT to: 
+
+                1. add, change, and remove any of the HTML elements and attributes
+                2. change any of the CSS styles
+                3. react to all the existing events
+                4. create new events
+
+            Ex: document.getElementById('id');
+
+        DOM INHERITANCE =>
+
+            Document => Node => EventTarget
+
+            EX:
+            
+                 document.getElementById('id').addEventListener('click');
 
     COOKIES =>
 

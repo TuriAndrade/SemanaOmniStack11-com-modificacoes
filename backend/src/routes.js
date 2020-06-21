@@ -17,7 +17,6 @@ const ongController = require('./controllers/ongController');
 const incidentController = require('./controllers/incidentController');
 const profileController = require('./controllers/profileController');
 const sessionController = require('./controllers/sessionController');
-const homeController = require('./controllers/homeController');
 const jwtController = require('./controllers/jwtController');
 
 const routes = express.Router();
@@ -97,18 +96,26 @@ routes.post('/users/:id', (request,response) => { // :id é um route param; acei
 
 */
 
-routes.get('/redirect', jwtController.verifyToken, homeController.redirect);
+routes.post('/sessions',jwtController.verifyAntiCsrfToken ,sessionController.create); //POST é utilizado pois eu CRIO uma sessão durante o login.
+routes.delete('/sessions', jwtController.verifyAuthenticationToken, jwtController.verifyAntiCsrfToken, sessionController.delete);
 
-routes.post('/sessions', sessionController.create); //POST é utilizado pois eu CRIO uma sessão durante o login.
-routes.delete('/sessions', jwtController.verifyToken, sessionController.delete); //DELETE é utilizado pois eu DELETO todas as sessões
+routes.delete('/sessions/all', jwtController.verifyAuthenticationToken, jwtController.verifyAntiCsrfToken, sessionController.deleteAll); //DELETE é utilizado pois eu DELETO todas as sessões
+
+routes.get('/authentication', jwtController.verifyAuthenticationToken, sessionController.authentication);
 
 routes.get('/ongs', ongController.index);
-routes.post('/ongs', ongController.create);
+routes.post('/ongs', jwtController.verifyAntiCsrfToken, ongController.create);
 
-routes.get('/profile', jwtController.verifyToken, profileController.index);
+routes.get('/profile', jwtController.verifyAuthenticationToken, profileController.index);
+
+routes.get('/get/data', jwtController.verifyAuthenticationToken, profileController.getData);
+
+routes.put('/update/data', jwtController.verifyAuthenticationToken, jwtController.verifyAntiCsrfToken, profileController.updateData);
 
 routes.get('/incidents', incidentController.index);
-routes.post('/incidents', jwtController.verifyToken, incidentController.create);
-routes.delete('/incidents/:id', jwtController.verifyToken, incidentController.delete);
+routes.post('/incidents', jwtController.verifyAuthenticationToken, jwtController.verifyAntiCsrfToken, incidentController.create);
+routes.delete('/incidents/:id', jwtController.verifyAuthenticationToken, jwtController.verifyAntiCsrfToken, incidentController.delete);
+
+routes.get('/generic/token', jwtController.getGenericAntiCsrfToken);
 
 module.exports = routes //exporta variável routes do arquivo routes.js

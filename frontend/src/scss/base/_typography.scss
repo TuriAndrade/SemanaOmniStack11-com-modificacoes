@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
 body{
     font-family: "Roboto",sans-serif;
@@ -17,4 +18,11 @@ a,input,button,textarea{ //por padrão não pegam a font do body
 
 .heading-primary{
     font-size:3.2rem;
+    color: rgba($color-black, .85);
+}
+
+.heading-secondary{
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: rgba($color-black, .85);
 }

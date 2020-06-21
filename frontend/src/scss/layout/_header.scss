@@ -1,0 +1,35 @@
+.header{
+    height: 95vh;
+    background-image: 
+        linear-gradient(
+        to right bottom, 
+        rgba($color-red-light,.7),
+        rgba($color-red-dark,.7)), 
+        url(./assets/holding-hands-img.jpg);
+    background-size: cover;
+    background-position: center;
+    -webkit-clip-path: polygon(0 0,100% 0,100% 80vh,0 100%);
+    clip-path: polygon(0 0,100% 0,100% 80vh,0 100%); //corners of the polygon: from top-left to bottom-left.
+
+    @include respond(phone){
+        -webkit-clip-path: polygon(0 0,100% 0,100% 85vh,0 100%);
+        clip-path: polygon(0 0,100% 0,100% 85vh,0 100%); 
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &__logo-box{
+        width: 40%;
+
+        img{
+            width: 100%;
+            filter: brightness(100) grayscale(100%); //grayscale takes care of some red pixels in the contours
+        }
+
+        animation: moveInBottom .7s;
+        animation-fill-mode: backwards;
+    }
+}

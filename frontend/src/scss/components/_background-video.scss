@@ -1,0 +1,21 @@
+.background-video{
+    overflow: hidden; //not necessary with the object fit, but just in case
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; //as the background of the section is transparent, it works
+
+    &__content{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+/*
+    SUPER OBS:
+
+    Aparentely, position fixed or sticky doesn't work if the parent of the fixed element has
+    overflow:hidden or no defined height (it has to be height, min-height doesn't work)
+*/

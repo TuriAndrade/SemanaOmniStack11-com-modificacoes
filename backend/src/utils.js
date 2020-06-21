@@ -3,25 +3,34 @@ const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
 
 // generate token and return it
-function generateTokenOng(ong) {
+function generateToken(json, secret, expiresInSeconds) {
   //1. Don't use password, email and other sensitive fields
   //2. Use the information that are useful in other parts
-  if (!ong) return null;
+  if (!json) return null;
 
   /*
     OBS: If a callback is supplied, most jwt methods become asynchronous. If not, they are synchronous
   */
 
-  return jwt.sign(ong, process.env.JWT_SECRET, {//As there is no callback, this is synchronous
-    expiresIn: 60*60*3
-  });
+  if(secret){
+    return jwt.sign(json, secret, {//As there is no callback, this is synchronous
+      expiresIn: expiresInSeconds
+    });
+  }else{
+    return null;
+  }
 }
 
 function decode(jwt){
   return jwtDecode(jwt);
 }
 
+function generateRandomString(length = 10){
+  return Math.random().toString(20).substr(2, length);
+}
+
 module.exports = {
-  generateTokenOng,
-  decode
+  generateToken,
+  decode,
+  generateRandomString
 }

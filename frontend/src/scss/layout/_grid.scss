@@ -4,30 +4,66 @@
     no defined height.
 */
 
+/*
+    In flexbox, the dimensions are determined by the content. So, if elements with flex parents
+    have no specified width and/or height, the not specified dimension adjuts to only fit their content
+
+*/
+
 .row {
     display: flex;
     margin: 0 auto;
     max-width: $grid-width;
+    width: 100%;
+
+    @include respond(tab-port){
+        max-width: $grid-width-small;
+        flex-direction: column;
+    }
 
     &:not(:last-child){
         margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port){
+            margin-bottom: $gutter-vertical-small;
+        }
     }
 }
 
 .row-fluid {
+    width: 100%;
     display: flex;
     margin: 0 auto;
 
+    @include respond(tab-port){
+        flex-direction: column;
+    }
+
     &:not(:last-child){
         margin-bottom: $gutter-vertical;
+
+        @include respond(tab-port){
+            margin-bottom: $gutter-vertical-small;
+        }
     }
 }
 
 .col {
     flex-grow: 0;
     flex-shrink: 1;
+
+    @include respond(tab-port){
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
     &:not(:last-child) {
         margin-right: $gutter-horizontal;
+
+        @include respond(tab-port){
+            margin-right: 0;
+            margin-bottom: $gutter-vertical-small;
+        }
     }
 }
 

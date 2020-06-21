@@ -1,0 +1,13 @@
+.rotation{
+    position: relative;
+    -webkit-perspective: 100rem;
+    perspective: 100rem;
+
+    &__side{
+        transition: transform .2s;
+
+        &--back{
+            transform: rotateY(-90deg);
+        }
+    }
+}

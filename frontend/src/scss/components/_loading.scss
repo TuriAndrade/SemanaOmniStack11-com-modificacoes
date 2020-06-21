@@ -1,0 +1,27 @@
+.loading{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-perspective: 100rem;
+    perspective: 100rem;
+
+    &__card{
+        width: 30%;
+        background-color: rgba($color-white, .9);
+        box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+        border-radius: .5rem;
+        padding: 4rem 7rem;
+
+        animation-fill-mode: backwards;
+        animation-duration: 1s;
+        animation-name: loading;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+
+        img{
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@import './abstracts/variables';
+@import './abstracts/mixins';
+
+@import './base/animations';
+@import './base/base';
+@import './base/typography';
+@import './base/utilities';
+
+@import './components/alert';
+@import './components/button';
+@import './components//background-video.scss';
+@import './components/form';
+@import './components/grid';
+@import './components/loading';
+@import './components/message';
+@import './components/popup';
+@import 'components/rotation';
+
+@import './layout/grid';
+@import './layout/header';
+@import './layout/navigation';
+@import './layout/right-menu';
+
+@import './pages/logon';
+@import './pages/newIncident';
+@import './pages/profile';
+@import './pages/register';

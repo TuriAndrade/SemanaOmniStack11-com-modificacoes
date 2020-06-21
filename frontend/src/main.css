@@ -1,0 +1,1241 @@
+@charset "UTF-8";
+/*
+    Writing media querys as mixins makes you write less code, and if you have to change breakpoints
+    it's bette to change only one mixin than all of your files
+*/
+/*
+
+0 - 600px => Phone
+
+600px - 900px => Tablet portrait
+
+900px - 1200px => Tablet landscape
+
+1200px - 1800px => NORMAL STYLES
+
+1800 + => Big screens
+
+*/
+/*
+    $breakpoint argument choices:
+
+    - phone
+    - tab-port
+    - tab-land
+    - big-desktop
+
+*/
+/*
+    OBS:
+
+    The max-width 600px query applies to all devices tha have width inferior to 600px,
+    but The max-width 900px query applies to all devices tha have width inferior to 900px,
+    INCLUDING THE 600px OR LESS DEVICE.
+
+    THATS WHY YOU HAVE TO BE CAREFUL WITH THE ORDER OF MEDIA QUERIES:
+
+    The first one should be the larger and the last the smaller, in desktop first applications,
+    and the other way around in mobile first applications
+
+*/
+/*
+    In media queries, we should use a unit that is affected by changes in the default font-size.
+    It's better for responsive purposes.
+
+    In media queries both rem and em are not affect by the font-size set in the html tag, but by
+    the font-size of the browser, so they are the same.
+
+    As rems fail to work in some browsers, the best option is to use ems to define media queries
+
+    1em = 16px (default font size of the browser)
+
+*/
+/*
+    SUGESTION OF ORDER TO IMPLEMENT MEDIA QUERIES:
+
+    Base + Typography > General Layout + Grid > Page Layout > Components
+*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.animated__fadeIn {
+  animation-fill-mode: backwards;
+  animation-duration: .7s;
+  animation-name: fadeIn; }
+
+@keyframes loading {
+  0% {
+    transform: rotateY(0); }
+  100% {
+    transform: rotateY(360deg); } }
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(20rem); }
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+
+html {
+  font-size: 62.5%;
+  /*
+        @include respond(phone){
+            font-size: 50%; 
+        }
+
+        It's not necessary to define the phone font-size, because it should be the same as the tab-port
+    */ }
+  @media (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media (max-width: 56.25em) {
+    html {
+      font-size: 50%; } }
+  @media (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: inherit; }
+
+body {
+  box-sizing: border-box;
+  background-color: #f0f0f5;
+  /* Track */
+  /* Handle */ }
+  body::-webkit-scrollbar {
+    width: 1.2rem; }
+  body::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    background: rgba(153, 153, 153, 0.3); }
+  body::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0.6rem rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    background: rgba(0, 0, 0, 0.3); }
+  body::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.1); }
+  @media (max-width: 56.25em) {
+    body {
+      padding: 0; } }
+
+input, button, textarea, a {
+  box-sizing: border-box; }
+
+a, button {
+  cursor: pointer; }
+
+body {
+  font-family: "Roboto",sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 1.4rem;
+  -webkit-font-smoothing: antialiased; }
+
+a, input, button, textarea {
+  font-family: "Roboto",sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 1.8rem; }
+
+.heading-primary {
+  font-size: 3.2rem;
+  color: rgba(0, 0, 0, 0.85); }
+
+.heading-secondary {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.85); }
+
+.u-height-100 {
+  height: 100% !important; }
+
+.u-width-100 {
+  width: 100% !important; }
+
+.u-padding-small-container {
+  padding: 3rem !important; }
+  @media (max-width: 56.25em) {
+    .u-padding-small-container {
+      padding: 0 !important; } }
+
+.u-container-small {
+  width: 100% !important;
+  max-width: 70rem !important; }
+  @media (max-width: 56.25em) {
+    .u-container-small {
+      width: 100% !important;
+      max-width: 100% !important; } }
+
+.u-container-medium {
+  width: 100% !important;
+  max-width: 90rem !important; }
+  @media (max-width: 56.25em) {
+    .u-container-medium {
+      width: 100% !important;
+      max-width: 100% !important; } }
+
+.u-container-big {
+  width: 100% !important;
+  max-width: 118rem !important; }
+  @media (max-width: 56.25em) {
+    .u-container-big {
+      width: 100% !important;
+      max-width: 100% !important; } }
+
+.u-center-text {
+  text-align: center !important; }
+
+.u-margin-bottom-huge {
+  margin-bottom: 12rem !important; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem !important; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem !important; }
+
+.u-margin-bottom-small {
+  margin-bottom: 2rem !important; }
+
+.u-margin-top-huge {
+  margin-top: 12rem !important; }
+
+.u-margin-top-big {
+  margin-top: 8rem !important; }
+
+.u-margin-top-medium {
+  margin-top: 4rem !important; }
+
+.u-margin-top-small {
+  margin-top: 2rem !important; }
+
+.u-padding-bottom-huge {
+  padding-bottom: 12rem !important; }
+
+.u-padding-bottom-big {
+  padding-bottom: 8rem !important; }
+
+.u-padding-bottom-medium {
+  padding-bottom: 4rem !important; }
+
+.u-padding-bottom-small {
+  padding-bottom: 2rem !important; }
+
+.u-padding-top-huge {
+  padding-top: 12rem !important; }
+
+.u-padding-top-big {
+  padding-top: 8rem !important; }
+
+.u-padding-top-medium {
+  padding-top: 4rem !important; }
+
+.u-padding-top-small {
+  padding-top: 2rem !important; }
+
+.u-padding-medium {
+  padding: 5rem !important; }
+
+.u-box-shadow {
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.15) !important; }
+
+.u-flex {
+  display: flex !important; }
+
+.u-flex-direction-column {
+  flex-direction: column !important; }
+
+.u-align-items-center {
+  align-items: center !important; }
+
+.u-align-items-start {
+  align-items: start !important; }
+
+.u-justify-content-center {
+  justify-content: center !important; }
+
+.u-justify-content-space-between {
+  justify-content: space-between !important; }
+
+.u-align-self-center {
+  align-self: center !important; }
+
+.u-font-size-icon-small {
+  font-size: 2rem !important; }
+
+.u-font-size-icon-medium {
+  font-size: 4rem !important; }
+
+.u-font-size-default {
+  font-size: 1.6rem !important; }
+
+.u-font-size-medium {
+  font-size: 2.2rem !important; }
+
+.u-font-size-big {
+  font-size: 4rem !important; }
+
+.u-disabled-btn, .u-disabled-btn:hover, .u-disabled-btn:active {
+  pointer-events: none !important; }
+
+.u-rotateY-90deg {
+  transform: rotateY(90deg); }
+
+.u-rotateY-0deg {
+  transform: rotateY(0); }
+
+.alert {
+  background-color: transparent;
+  font-weight: 300;
+  border-radius: .6rem;
+  padding: 5rem 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  /*
+        Both overflow-wrap and word-break have similar functions, but the first works for
+        the most usual languages and the second for chinese, japanese and korean
+    */ }
+  .alert--red {
+    border: 2px solid #e02041;
+    color: #e02041; }
+  .alert--green {
+    border: 2px solid #28b485;
+    color: #28b485; }
+
+/*
+    OBS: Alguns elementos, mesmo com display block, tem a width definida pelo conteúdo.
+    Eles são <input>, <select>, <button>, <img>, <object> e <textarea>.
+    Por isso, é necessário definir a width deles para 100% se esse for o caso, 
+    mesmo se o display deles for block.
+*/
+.btn-icon {
+  display: inline-flex;
+  border: 1px solid #dcdce6;
+  justify-content: center;
+  align-items: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: .4rem;
+  background: transparent;
+  transition: all .2s; }
+  .btn-icon:hover {
+    border-color: #999; }
+
+.btn-icon-2 {
+  display: inline-block;
+  border: none;
+  color: #999;
+  background: transparent;
+  transition: all .2s; }
+  .btn-icon-2:hover {
+    opacity: .4; }
+
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: .8rem;
+  font-weight: 700;
+  padding: 1.2rem 3rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.8rem;
+  transition: all 0.2s; }
+  .btn:hover {
+    filter: brightness(90%); }
+  .btn--red {
+    background-color: #e02041;
+    color: #fff; }
+  .btn--white {
+    background-color: #fff;
+    color: #e02041; }
+  .btn--100 {
+    width: 100%;
+    display: block; }
+
+.link:link, .link:visited {
+  font-weight: 500;
+  text-decoration: none;
+  color: #41414d;
+  display: inline-flex;
+  align-items: center;
+  transition: all .2s; }
+
+.link:hover {
+  opacity: .8; }
+
+.link svg {
+  margin-right: .8rem; }
+
+.link-text:link, .link-text:visited {
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: 2px solid;
+  transition: all .2s; }
+
+.link-text--red {
+  color: #e02041;
+  border-color: #e02041; }
+  .link-text--red:hover {
+    background-color: #e02041;
+    color: #fff;
+    border-color: #e02041; }
+
+.link-text:hover {
+  transform: skewY(-2deg) scale(1.05);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3); }
+
+.link-text-2:link, .link-text-2:visited {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 300;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-image: linear-gradient(120deg, transparent 0% 50%, #fff 50%);
+  padding: 0.7rem 1.5rem;
+  transition: all .8s;
+  background-size: 300% 200%;
+  background-position: 0%;
+  /*
+            backgroung-size:100% is the same as 'cover'. Increasing this value makes the background grow
+            but it's only visible in it's box limits, and decreasing it makes it repeat to cover the box
+        
+            It was necessary to increase it more than 100% (making it 200%) because of the 120deg rotation
+            This way, is completely vanishes at position 0% and covers 100% of the item at position 100%
+        */ }
+  .link-text-2:link:hover, .link-text-2:link:active, .link-text-2:visited:hover, .link-text-2:visited:active {
+    color: #e02041;
+    background-position: 100%;
+    transform: translateX(1rem); }
+
+.background-video {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+  .background-video__content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; }
+
+/*
+    SUPER OBS:
+
+    Aparentely, position fixed or sticky doesn't work if the parent of the fixed element has
+    overflow:hidden or no defined height (it has to be height, min-height doesn't work)
+*/
+.form > *:not(:last-child) {
+  margin-bottom: 1.6rem; }
+
+.form input,
+.form input:invalid {
+  width: 100%;
+  padding: 1.2rem 2.4rem;
+  border-radius: .8rem;
+  border: 1px solid #dcdce6;
+  color: #333; }
+
+.form textarea {
+  resize: vertical;
+  width: 100%;
+  vertical-align: bottom;
+  outline: 0;
+  border: 0;
+  padding: 1.2rem 2.4rem;
+  border-radius: .8rem;
+  border: 1px solid #dcdce6;
+  color: #333; }
+
+.form--input-error input,
+.form--input-error textarea {
+  margin-bottom: .5rem;
+  border-color: #e02041; }
+
+.form--input-error p {
+  color: #e02041;
+  display: block;
+  padding-left: .5rem; }
+
+.form--input-group-75-25 {
+  display: flex;
+  align-items: flex-start; }
+  .form--input-group-75-25 > input:first-child,
+  .form--input-group-75-25 > .form--input-error:first-child {
+    flex-basis: 75%;
+    max-width: 75%;
+    margin-right: 1%; }
+  .form--input-group-75-25 > input:last-child,
+  .form--input-group-75-25 > .form--input-error:last-child {
+    flex-basis: 24%;
+    max-width: 24%; }
+
+.form--input-group-clip-path {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s ease-out;
+  transform: translateX(-100%); }
+  .form--input-group-clip-path input {
+    width: 75%;
+    padding: 1.2rem 15% 1.2rem 2.4rem;
+    border-bottom-left-radius: .8rem;
+    border-top-left-radius: .8rem;
+    border: 1px solid #dcdce6;
+    color: #333; }
+  .form--input-group-clip-path button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: #e02041;
+    display: flex;
+    padding: 1.5rem 2rem;
+    border-top-right-radius: .8rem;
+    border-bottom-right-radius: .8rem;
+    border: none;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(25% -1%, 100% 0, 100% 100%, 0 101%); }
+    .form--input-group-clip-path button:hover {
+      filter: brightness(90%); }
+
+.form--input-clip-path-error {
+  border: 1px solid #e02041 !important; }
+
+.form--input-clip-path-error + p {
+  position: absolute;
+  left: .5rem;
+  bottom: -3rem;
+  color: #e02041; }
+
+.form__radio-input {
+  display: none; }
+
+.form__radio-label {
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 300; }
+
+.form__radio-input:checked + .form__radio-label .form__radio-btn::after {
+  opacity: 1; }
+
+.form__radio-btn {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100rem;
+  border: 0.4rem solid #e02041;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1rem; }
+  .form__radio-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 100rem;
+    background-color: #e02041;
+    display: inline-block;
+    opacity: 0;
+    transition: all .3s; }
+
+.form__radio-group {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  cursor: pointer; }
+
+.grid-2c {
+  display: grid;
+  justify-content: center;
+  align-content: start;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2.4rem;
+  list-style: none; }
+  @media (max-width: 56.25em) {
+    .grid-2c {
+      grid-template-columns: minmax(20rem, 70rem); } }
+  .grid-2c li {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    padding: 2.4rem;
+    border-radius: .8rem;
+    max-width: 1fr;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    /*
+            Both overflow-wrap and word-break have similar functions, but the first works for
+            the most usual languages and the second for chinese, japanese and korean
+        */ }
+    .grid-2c li .btn-icon-2 {
+      position: absolute;
+      top: 2.4rem;
+      right: 2.4rem; }
+    .grid-2c li strong {
+      display: block;
+      margin-bottom: 1.2rem; }
+      .grid-2c li strong:not(:first-child) {
+        margin-top: 3.2rem; }
+    .grid-2c li p {
+      color: #737380;
+      line-height: 2.1rem; }
+
+.loading {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-perspective: 100rem;
+  perspective: 100rem; }
+  .loading__card {
+    width: 30%;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+    border-radius: .5rem;
+    padding: 4rem 7rem;
+    animation-fill-mode: backwards;
+    animation-duration: 1s;
+    animation-name: loading;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out; }
+    .loading__card img {
+      width: 100%;
+      max-width: 100%; }
+
+.message {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  z-index: 500;
+  bottom: 0;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 1s; }
+
+.popup {
+  height: 100vh;
+  width: 100vw;
+  z-index: 500;
+  padding: 0 4rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .5s;
+  opacity: 0;
+  visibility: hidden; }
+  @media (max-width: 37.5em) {
+    .popup {
+      padding: 0; } }
+  .popup__close-area {
+    height: 100%;
+    width: 100%;
+    z-index: 600;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .popup__close-btn {
+    font-size: 3.2rem;
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+    display: inline-block;
+    line-height: 1;
+    transition: all .4s;
+    color: #000;
+    z-index: 100; }
+    .popup__close-btn:hover {
+      color: #e02041; }
+  .popup__content {
+    position: relative;
+    z-index: 700;
+    background-color: #dcdce6;
+    width: 100%;
+    max-width: 900px;
+    height: 50rem;
+    max-height: 80%;
+    border-radius: 2px;
+    transform: scale(0.3);
+    overflow: hidden;
+    opacity: 0;
+    transition: all .3s .2s; }
+    @media (max-width: 37.5em) {
+      .popup__content {
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%; } }
+
+.rotation {
+  position: relative;
+  -webkit-perspective: 100rem;
+  perspective: 100rem; }
+  .rotation__side {
+    transition: transform .2s; }
+    .rotation__side--back {
+      transform: rotateY(-90deg); }
+
+/*
+    OBS:flex-basis defines the width if the flex direction is row and height if its column, 
+    so it doesn't work very well with flex direction column if the parent of the column has 
+    no defined height.
+*/
+/*
+    In flexbox, the dimensions are determined by the content. So, if elements with flex parents
+    have no specified width and/or height, the not specified dimension adjuts to only fit their content
+
+*/
+.row {
+  display: flex;
+  margin: 0 auto;
+  max-width: 114rem;
+  width: 100%; }
+  @media (max-width: 56.25em) {
+    .row {
+      max-width: 50rem;
+      flex-direction: column; } }
+  .row:not(:last-child) {
+    margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .row:not(:last-child) {
+        margin-bottom: 6rem; } }
+
+.row-fluid {
+  width: 100%;
+  display: flex;
+  margin: 0 auto; }
+  @media (max-width: 56.25em) {
+    .row-fluid {
+      flex-direction: column; } }
+  .row-fluid:not(:last-child) {
+    margin-bottom: 8rem; }
+    @media (max-width: 56.25em) {
+      .row-fluid:not(:last-child) {
+        margin-bottom: 6rem; } }
+
+.col {
+  flex-grow: 0;
+  flex-shrink: 1; }
+  @media (max-width: 56.25em) {
+    .col {
+      width: 100% !important;
+      max-width: 100% !important; } }
+  .col:not(:last-child) {
+    margin-right: 6rem; }
+    @media (max-width: 56.25em) {
+      .col:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 6rem; } }
+
+.col-100 {
+  width: 100%;
+  max-width: 100%; }
+
+.col-40 {
+  width: calc(2*(100% - 6rem)/5);
+  max-width: calc(2*(100% - 6rem)/5); }
+
+.col-60 {
+  width: calc(3*(100% - 6rem)/5);
+  max-width: calc(3*(100% - 6rem)/5); }
+
+.col-50 {
+  width: calc((100% - 6rem)/2);
+  max-width: calc((100% - 6rem)/2); }
+
+.col-33 {
+  width: calc((100% - 2 * 6rem)/3);
+  max-width: calc((100% - 2 * 6rem)/3); }
+
+.col-25 {
+  width: calc((100% - 3 * 6rem)/4);
+  max-width: calc((100% - 3 * 6rem)/4); }
+
+.col-66 {
+  width: calc((100% - 2 * 6rem)/3*2 + 6rem);
+  max-width: calc((100% - 2 * 6rem)/3*2 + 6rem); }
+
+.col-75 {
+  width: calc((100% - 3 * 6rem)/4*3 + 2 * 6rem);
+  max-width: calc((100% - 3 * 6rem)/4*3 + 2 * 6rem); }
+
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(255, 51, 51, 0.7), rgba(183, 28, 28, 0.7)), url(./assets/holding-hands-img.jpg);
+  background-size: cover;
+  background-position: center;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
+  @media (max-width: 37.5em) {
+    .header {
+      -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%); } }
+  .header__logo-box {
+    width: 40%;
+    animation: moveInBottom .7s;
+    animation-fill-mode: backwards; }
+    .header__logo-box img {
+      width: 100%;
+      filter: brightness(100) grayscale(100%); }
+
+.navigation {
+  /*
+        The icon is relative positioned is aligned in the center of the button by flex alignments
+        The before and after are absolute positioned referencing the icon
+    */ }
+  .navigation__checkbox {
+    display: none; }
+  .navigation__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 6rem;
+    right: 6rem;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    /* The dimensions were designed to cover the background completely*/ }
+    @media (max-width: 56.25em) {
+      .navigation__button {
+        top: 3.7rem;
+        right: 3.7rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__button {
+        top: 3rem;
+        right: 3rem; } }
+  .navigation__background {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 6.5rem;
+    right: 6.5rem;
+    background-image: radial-gradient(#FF3333, #B71C1C);
+    transition: all 1s;
+    z-index: 30; }
+    @media (max-width: 56.25em) {
+      .navigation__background {
+        top: 4.2rem;
+        right: 4.2rem; } }
+    @media (max-width: 37.5em) {
+      .navigation__background {
+        top: 3.5rem;
+        right: 3.5rem; } }
+  .navigation__nav {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.38, -0.2, 0.18, 1.47);
+    transform: translateX(-100%);
+    z-index: 40;
+    visibility: hidden; }
+  .navigation__list {
+    list-style: none;
+    text-align: center; }
+  .navigation__item:not(:last-child) {
+    margin-bottom: 3rem; }
+  .navigation__checkbox:checked ~ .navigation__background {
+    transform: scale(100); }
+  .navigation__checkbox:checked ~ .navigation__nav {
+    transform: translateX(0);
+    visibility: visible; }
+  .navigation__icon {
+    position: relative;
+    transition: all .2s; }
+    .navigation__icon, .navigation__icon::before, .navigation__icon::after {
+      width: 3rem;
+      height: 1.6px;
+      background-color: #333;
+      display: inline-block; }
+    .navigation__icon::before, .navigation__icon::after {
+      content: "";
+      position: absolute;
+      transition: all .2s; }
+    .navigation__icon::before {
+      left: 0;
+      top: -.8rem; }
+    .navigation__icon::after {
+      left: 0;
+      top: .8rem; }
+  .navigation__button:hover .navigation__icon::before {
+    top: -1rem; }
+  .navigation__button:hover .navigation__icon::after {
+    top: 1rem; }
+  .navigation__checkbox:checked + .navigation__button .navigation__icon {
+    background-color: transparent; }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::before {
+      transform: rotate(135deg); }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+      transform: rotate(-135deg); }
+    .navigation__checkbox:checked + .navigation__button .navigation__icon::before, .navigation__checkbox:checked + .navigation__button .navigation__icon::after {
+      top: 0; }
+  .navigation__logo-img {
+    background-image: linear-gradient(120deg, transparent 0% 50%, #fff 50%);
+    transition: all .8s;
+    background-size: 300% 200%;
+    background-position: 0%;
+    padding: 2rem; }
+    .navigation__logo-img:hover {
+      background-position: 100%;
+      transform: translateX(1rem); }
+    .navigation__logo-img img {
+      width: 70%;
+      filter: brightness(100) grayscale(100%);
+      transition: opacity .3s; }
+  .navigation__btn-icon {
+    background-color: transparent;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 100rem;
+    border: 1px solid #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s; }
+    .navigation__btn-icon > * {
+      color: #fff;
+      transition: all .3s; }
+    .navigation__btn-icon:hover > * {
+      color: #e02041; }
+    .navigation__btn-icon:hover {
+      background-color: #fff; }
+
+.right-menu__checkbox {
+  display: none; }
+
+.right-menu__close-area {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  visibility: hidden;
+  opacity: 0;
+  transition: all .4s;
+  z-index: 170; }
+
+.right-menu__button {
+  backface-visibility: hidden;
+  height: 7rem;
+  width: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100rem;
+  position: fixed;
+  top: 6rem;
+  left: 6rem;
+  background-color: #fff;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+  z-index: 110;
+  cursor: pointer;
+  transition: all .3s;
+  /* The dimensions were designed to cover the background completely*/ }
+  @media (max-width: 56.25em) {
+    .right-menu__button {
+      top: 3.7rem;
+      left: 3.7rem; } }
+  @media (max-width: 37.5em) {
+    .right-menu__button {
+      top: 3rem;
+      left: 3rem; } }
+
+.right-menu__background {
+  z-index: 175;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  transition: all .3s ease-out;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-top-right-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+  max-width: 100%; }
+
+.right-menu__checkbox:checked ~ .right-menu__background {
+  transform: translateX(0); }
+
+.right-menu__checkbox:checked ~ .right-menu__close-area {
+  visibility: visible;
+  opacity: 1; }
+
+.right-menu__close-btn {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-left-radius: 100rem;
+  border-bottom-right-radius: 100rem;
+  border: none;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2);
+  z-index: 200; }
+
+.right-menu__content {
+  padding: 7rem 4rem 0 4rem;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* Track */
+  /* Handle */ }
+  .right-menu__content::-webkit-scrollbar {
+    width: 1.2rem; }
+  .right-menu__content::-webkit-scrollbar-track {
+    border-radius: 1rem; }
+  .right-menu__content::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0.6rem rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.3); }
+  .right-menu__content::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255, 255, 255, 0.1); }
+
+.right-menu__icon {
+  font-size: 2rem;
+  transition: all .1s; }
+  .right-menu__icon--pointer {
+    cursor: pointer; }
+
+.right-menu__button:hover .right-menu__icon,
+.right-menu__close-btn:hover .right-menu__icon {
+  font-size: 2.2rem; }
+
+.right-menu__list {
+  list-style: none; }
+
+.right-menu__list-item {
+  position: relative;
+  padding: .5rem;
+  display: flex;
+  align-items: center; }
+  .right-menu__list-item:not(:last-child) {
+    margin-bottom: .5rem; }
+  .right-menu__list-item--left {
+    margin-right: 3rem; }
+  .right-menu__list-item--middle {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4rem; }
+  .right-menu__list-item--right {
+    position: absolute;
+    right: 0; }
+    @media (max-width: 56.25em) {
+      .right-menu__list-item--right {
+        display: none; } }
+  .right-menu__list-item--error:not(:last-child) {
+    margin-bottom: 3.5rem !important; }
+
+.right-menu__edit-checkbox {
+  display: none; }
+
+.right-menu__edit-label {
+  cursor: pointer; }
+
+.right-menu__edit-button {
+  transition: background-color .5s; }
+
+.right-menu__list-label {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #fff; }
+
+.right-menu__list-text {
+  font-weight: 300;
+  font-size: 1.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 60rem;
+  /*
+            Both overflow-wrap and word-break have similar functions, but the first works for
+            the most usual languages and the second for chinese, japanese and korean
+        */ }
+
+.right-menu__logo-box {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 4rem 0; }
+  .right-menu__logo-box img {
+    width: 60%;
+    filter: brightness(100) grayscale(100%); }
+
+.right-menu__tab-port-popup-button {
+  margin-top: 2rem;
+  display: none; }
+  @media (max-width: 56.25em) {
+    .right-menu__tab-port-popup-button {
+      display: block; } }
+
+@media (max-width: 56.25em) {
+  .right-menu__form {
+    display: none; } }
+
+.logon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; }
+  .logon-container__logo-img {
+    width: 100%;
+    overflow: hidden; }
+    .logon-container__logo-img img {
+      width: 100%;
+      max-width: 100%; }
+  .logon-container__heroes-img {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden; }
+    .logon-container__heroes-img img {
+      max-width: 100%;
+      width: 100%; }
+
+.newIncident-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; }
+  .newIncident-container__logo-img {
+    width: 100%;
+    overflow: hidden; }
+    .newIncident-container__logo-img img {
+      width: 100%;
+      max-width: 100%; }
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 10rem 3rem; }
+  .profile-container__logout-box {
+    position: relative;
+    z-index: 800;
+    height: 100%;
+    background-image: linear-gradient(110deg, rgba(255, 255, 255, 0.8) 0% 60%, transparent 60%);
+    overflow: auto;
+    /* Track */
+    /* Handle */ }
+    .profile-container__logout-box::-webkit-scrollbar {
+      width: 1.2rem; }
+    .profile-container__logout-box::-webkit-scrollbar-track {
+      border-radius: 1rem; }
+    .profile-container__logout-box::-webkit-scrollbar-thumb {
+      box-shadow: inset 0 0 0.6rem rgba(0, 0, 0, 0.2);
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.3); }
+    .profile-container__logout-box::-webkit-scrollbar-thumb:window-inactive {
+      background: rgba(0, 0, 0, 0.1); }
+    @media (max-width: 56.25em) {
+      .profile-container__logout-box {
+        background-image: linear-gradient(110deg, rgba(255, 255, 255, 0.8) 0% 100%, transparent); } }
+  .profile-container__logout-form {
+    padding: 4rem;
+    width: 55%;
+    min-height: 100%;
+    display: flex;
+    align-items: center; }
+    @media (max-width: 56.25em) {
+      .profile-container__logout-form {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 50rem; } }
+  .profile-container__update-box {
+    position: relative;
+    height: 100%;
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0% 100%, transparent);
+    overflow: auto;
+    /* Track */
+    /* Handle */ }
+    .profile-container__update-box::-webkit-scrollbar {
+      width: 1.2rem; }
+    .profile-container__update-box::-webkit-scrollbar-track {
+      border-radius: 1rem; }
+    .profile-container__update-box::-webkit-scrollbar-thumb {
+      box-shadow: inset 0 0 0.6rem rgba(0, 0, 0, 0.2);
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.3); }
+    .profile-container__update-box::-webkit-scrollbar-thumb:window-inactive {
+      background: rgba(0, 0, 0, 0.1); }
+  .profile-container__update-form {
+    padding: 4rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 50rem;
+    display: flex;
+    align-items: center;
+    min-height: 100%; }
+  .profile-container__update-popup {
+    display: none; }
+    @media (max-width: 56.25em) {
+      .profile-container__update-popup {
+        display: flex; } }
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; }
+  .register-container__logo-img {
+    width: 100%;
+    overflow: hidden; }
+    .register-container__logo-img img {
+      width: 100%;
+      max-width: 100%; }

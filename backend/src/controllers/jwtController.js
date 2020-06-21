@@ -1,42 +1,77 @@
+const jwt = require('jsonwebtoken');
+const utils = require('../utils');
+const redis = require('../database/redis');
+
 module.exports = {
 
-    /* REQUEST HEADER VERIFICATION 
-
-    verifyToken(request, response, next){ //verifies if there is a jwt or not
-        const bearerHeader = request.headers.authorization;
-
-        if(bearerHeader){ //verifies if the bearerHeader is not undefined or null
-
-            //The default authorization format is authorization: Bearer token
-
-            //To take the Bearer out and get only the token, the .replace() or .split() js functions can de used
-        
-            const token = bearerHeader.replace('Bearer ','');
-
-            request.token = token; //if there is a token, this allows the next middleares in the pile to access it, beacause they have the same request and response
-
-            next(); // call the next middleware
-        }else{
-            response.status(401).json({error:"Token is required"})
-        }
-    }
-
-    */
-
-    /* COOKIE VERIFICATION => 
-        SAFER, because cookies are set httpOnly, in other words, not accessible in the browser
-        EASIER, because no frontend code is necessary to send the cookies in the request
-    */
-
-    verifyToken(request, response, next){ //verifies if there is a jwt or not
+    verifyAuthenticationToken(request, response, next){ //verifies if there is a jwt or not
         const token = request.cookies.token;
 
         if(token){ 
-            request.token = token; //if there is a token, this allows the next middleares in the pile to access it, beacause they have the same request and response
+            
+            jwt.verify(token, process.env.JWT_AUTHENTICATION, async function (err, ong){ //ong acces token after its decrypted
+                if(err){ //fires if token doesn't exists
+                    return response.status(401).json({error:"Invalid auth token"});
+                }else if(utils.decode(token).iat > request.app.get('timestamp')){ //request.app holds a reference to the instance of the Express application that is using the middleware.
+                    
+                    /*
+                        Essa condição invalida todos os tokens que foram criados antes do deploy do servidor
+                    */
+    
+                    redis.get(ong.id, async (error, result)=>{
+                        if(error){
+                            return response.status(400).json({error});
+                        }else{
+                            if(ong.generation > Number(result)){ //if no data matches the ong.id, result will be null and this condition will be true
 
-            next(); // call the next middleware
+                                request.token = token; 
+                                request.ong = ong;
+                                next();
+                                
+                            }else{
+                                return response.status(401).json({error: "Blacklisted token"});
+                            }
+                        }
+                    });
+                }else{
+                    return response.status(401).json({error:"Old token"});
+                }
+            });
+
         }else{
-            response.status(401).json({error:"Token is required"})
+            response.status(401).json({error:"Auth token is required"})
         }
+    },
+
+    verifyAntiCsrfToken(request, response, next){
+        const token = request.headers.anticsrf;
+
+        const authenticatedOng = request.ong;
+
+        if(token){
+            jwt.verify(token, process.env.JWT_ANTICSRF, async function (err, antiCsrfData){ //ong acces token after its decrypted
+                if(err){ //fires if token doesn't exists
+                    return response.status(401).json({error:"Invalid antiCsrf token"});
+                }else{
+                    if(authenticatedOng){
+                        if(authenticatedOng.id === antiCsrfData.id){
+                            next();
+                        }else{
+                            return response.status(401).json({error:"Ong not authenticated"});
+                        }
+                    }else{
+                        next();
+                    }
+                }
+            }); 
+        }else{
+            response.status(401).json({error:"AntiCsrf token is required"})
+        }
+    }, 
+
+    getGenericAntiCsrfToken(request, response){
+        const token = utils.generateToken({random: utils.generateRandomString()}, process.env.JWT_ANTICSRF, 60*20);
+
+        return response.json({token});
     }
 }

@@ -1,16 +1,61 @@
 html{
     font-size: 62.5%;
+
+    @include respond(tab-land){
+        font-size: 56.25%; //1rem = 9px
+    }
+
+    @include respond(tab-port){
+        font-size: 50%; //1rem = 8px
+    }
+    
+    /*
+        @include respond(phone){
+            font-size: 50%; 
+        }
+
+        It's not necessary to define the phone font-size, because it should be the same as the tab-port
+    */
+
+    @include respond(big-desktop){ //this is a min-width query, so it comes in the end
+        font-size: 75%; //1rem = 12px
+    }
 }
 
 *, *::after,*::before{
     margin: 0;
     padding: 0;
     outline: 0;
+    box-sizing: inherit; //Faz com que todos os elementos herdem o box-sizing do body
 }
 
 body{
     box-sizing: border-box;
     background-color: $color-grey-light-1;
+
+    &::-webkit-scrollbar {
+        width: 1.2rem;
+    }
+     
+    /* Track */
+    &::-webkit-scrollbar-track {
+        border-radius: 1rem;
+        background: rgba($color-grey-dark-3, .3);
+    }
+     
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        box-shadow: inset 0 0 .6rem rgba($color-black, .2);
+        border-radius: 1rem;
+        background: rgba($color-black, .3);
+    }
+    &::-webkit-scrollbar-thumb:window-inactive {
+        background: rgba($color-black, .1);
+    }
+
+    @include respond(tab-port){
+        padding: 0;
+    }
 }
 
 input,button,textarea,a{

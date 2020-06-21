@@ -1,109 +1,185 @@
+.u-height-100{
+    height: 100% !important;
+}
+
+.u-width-100{
+    width: 100% !important;
+}
+
+.u-padding-small-container{
+    padding: 3rem !important;
+
+    @include respond(tab-port){
+        padding: 0 !important;
+    }
+}
+
 .u-container-small{
-    width: 100%;
-    max-width:700px; //nesse caso tem que ser definido com px em vez de rem
+    width: 100% !important;
+    max-width:70rem !important; //nesse caso tem que ser definido com px em vez de rem
+
+    @include respond(tab-port){
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+.u-container-medium{
+    width: 100% !important;
+    max-width:90rem !important;
+
+    @include respond(tab-port){
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 }
 
 .u-container-big{
-    width: 100%;
-    max-width:1180px; //nesse caso tem que ser definido com px em vez de rem
+    width: 100% !important;
+    max-width:118rem !important; 
+
+    @include respond(tab-port){
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 }
 
 .u-center-text{
-    text-align: center;
+    text-align: center !important;
 }
 
 .u-margin-bottom-huge{
-    margin-bottom:12rem;
+    margin-bottom:12rem !important;
 }
 
 .u-margin-bottom-big{
-    margin-bottom: 8rem;
+    margin-bottom: 8rem !important;
 }
 
 .u-margin-bottom-medium{
-    margin-bottom: 4rem;
+    margin-bottom: 4rem !important;
 }
 
 .u-margin-bottom-small{
-    margin-bottom: 2rem;
+    margin-bottom: 2rem !important;
 }
 
 .u-margin-top-huge{
-    margin-top:12rem;
+    margin-top:12rem !important;
 }
 
 .u-margin-top-big{
-    margin-top: 8rem;
+    margin-top: 8rem !important;
 }
 
 .u-margin-top-medium{
-    margin-top: 4rem;
+    margin-top: 4rem !important;
 }
 
 .u-margin-top-small{
-    margin-top: 2rem;
+    margin-top: 2rem !important;
 }
 
 .u-padding-bottom-huge{
-    padding-bottom:12rem;
+    padding-bottom:12rem !important;
 }
 
 .u-padding-bottom-big{
-    padding-bottom: 8rem;
+    padding-bottom: 8rem !important;
 }
 
 .u-padding-bottom-medium{
-    padding-bottom: 4rem;
+    padding-bottom: 4rem !important;
 }
 
 .u-padding-bottom-small{
-    padding-bottom: 2rem;
+    padding-bottom: 2rem !important;
 }
 
 .u-padding-top-huge{
-    padding-top:12rem;
+    padding-top:12rem !important;
 }
 
 .u-padding-top-big{
-    padding-top: 8rem;
+    padding-top: 8rem !important;
 }
 
 .u-padding-top-medium{
-    padding-top: 4rem;
+    padding-top: 4rem !important;
 }
 
 .u-padding-top-small{
-    padding-top: 2rem;
-}
-
-.u-box-shadow{
-    box-shadow: 0 1rem 4rem rgba($color-black, .15);
+    padding-top: 2rem !important;
 }
 
 .u-padding-medium{
-    padding: 5rem;
+    padding: 5rem !important;
+}
+
+.u-box-shadow{
+    box-shadow: 0 1rem 4rem rgba($color-black, .15) !important;
+}
+
+.u-flex{
+    display: flex !important;
+}
+
+.u-flex-direction-column{
+    flex-direction: column !important;
 }
 
 .u-align-items-center{
-    align-items: center;
+    align-items: center !important;
 }
 
 .u-align-items-start{
-    align-items: start;
+    align-items: start !important;
 }
 
 .u-justify-content-center{
-    justify-content: center;
+    justify-content: center !important;
 }
 
 .u-justify-content-space-between{
-    justify-content: space-between;
+    justify-content: space-between !important;
+}
+
+.u-align-self-center{
+    align-self: center !important;
 }
 
 .u-font-size-icon-small{
-    font-size: 2rem;
+    font-size: 2rem !important;
 }
 
 .u-font-size-icon-medium{
-    font-size: 4rem;
+    font-size: 4rem !important;
+}
+
+.u-font-size-default{
+    font-size: 1.6rem !important;
+}
+
+.u-font-size-medium{
+    font-size: 2.2rem !important;
+}
+
+.u-font-size-big{
+    font-size:4rem !important;
+}
+
+.u-disabled-btn{
+    &,
+    &:hover,
+    &:active{
+        pointer-events: none !important;
+    }
+}
+
+.u-rotateY-90deg{
+    transform: rotateY(90deg);
+}
+
+.u-rotateY-0deg{
+    transform: rotateY(0);
 }

@@ -8,12 +8,32 @@ const cookieParser = require('cookie-parser'); //Middleware que permite criaçã
 const app = express(); // express fornece mecanismos para gerenciamento de rotas, URLs e requisições.
 
 /*
-Por padrão, os navegadores só permitem que um recurso de um site seja chamado por outro site se eles estiverem hospedados no mesmo domínio
-O cors permite cominicação entre domínios de forma livre, desde que os domínios aceitos para troca de informações sejam especificados devidamente.
-Sua principal função é permitir comunicação entre o frontend e o backend.
+    Por padrão, os navegadores só permitem que um recurso de um site seja chamado por outro site se eles 
+    estiverem hospedados no mesmo domínio
+
+    O cors permite cominicação entre domínios de forma livre, desde que os domínios aceitos para troca 
+    de informações sejam especificados devidamente.
+
+    Sua principal função é permitir comunicação entre o frontend e o backend.
+
+    OBS: Mesmo que uma origem seja definida no cors, browsers ainda podem acessar as rotas da aplicação
 */
 
-app.use(cors()); 
+app.use(cors({
+    origin: 'http://localhost:3000', //Access-Control-Allow-Origin
+    credentials:true //Access-Control-Allow-Credentials
+
+    /*
+        By default, credentials such as HTTP cookies and HTTP authentication headers
+        are NOT sent or received in cross-site comunication.
+
+        To apply it, Access-Control-Allow-Origin MUST be specified (AND DIFFERENT FROM '*')
+        in the server's response, and the Access-Control-Allow-Credentials must be set to TRUE 
+        both in the client's request and in the server's response
+
+    */
+
+})); 
 
 /*
     Normalmente, o frontend não conseguiria acessar o backend, mas o cors() sem especificação

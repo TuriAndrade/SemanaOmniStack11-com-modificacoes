@@ -1,5 +1,4 @@
 const connection = require('../database/connection');
-//const crypto = require('crypto');
 
 module.exports = {
     async index(request,response){
@@ -14,7 +13,7 @@ module.exports = {
     
         //const id = crypto.randomBytes(4).toString('HEX'); //gera id aleatória
         
-        const alreadyExists = await connection('ongs').where('login',login).select('login').first();
+        const alreadyExists = await connection('ongs').where('login',login).select('id').first();
 
         if(!alreadyExists){
             await connection('ongs').insert({
