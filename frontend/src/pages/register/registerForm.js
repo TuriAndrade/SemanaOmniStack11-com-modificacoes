@@ -70,30 +70,33 @@ export default function RegisterForm(){
 
     const antiCsrfToken = useRef(null);
 
+    const rotationFront = useRef();
+    const rotationBack = useRef();
+
     useEffect(()=>{
         if(errorRegister || sucessRegister){
 
-            document.querySelector('.rotation__side--back').style.transform = "rotateY(0deg)";
+            rotationBack.current.style.transform = "rotateY(0deg)";
             
         }else if(prevSucessRegister){
 
             didSubmit.current = true;
             
-            document.querySelector('.rotation__side--back').style.transform = "rotateY(-90deg)";
+            rotationBack.current.style.transform = "rotateY(-90deg)";
 
-            document.querySelector('.rotation__side--back').ontransitionend = () =>{
+            rotationBack.current.ontransitionend = () =>{
                 setPrevSucessRegister(null);
             }
 
         }else{
             didSubmit.current = false;
-            document.querySelector('.rotation__side--front').style.transform = "rotateY(0deg)";
+            rotationFront.current.style.transform = "rotateY(0deg)";
         }
     }, [errorRegister, sucessRegister, prevSucessRegister]);
 
     useEffect(()=>{
         if(!errorLogin && !errorPassword && !errorName && !errorEmail && !errorWhatsapp && !errorCity && !errorUf){
-            formHeight.current = document.querySelector('.form').offsetHeight;
+            formHeight.current = rotationFront.current.offsetHeight;
         }
     },[errorLogin, errorPassword, errorName, errorEmail, errorWhatsapp, errorCity, errorUf]);
 
@@ -130,7 +133,7 @@ export default function RegisterForm(){
             
             try{
 
-                formHeight.current = document.querySelector('.rotation__side--front').offsetHeight;
+                formHeight.current = rotationFront.current.offsetHeight;
 
                 const response = await api.post('ongs',dados, {
                     timeout:5000,
@@ -141,9 +144,9 @@ export default function RegisterForm(){
                 
                 setErrorLogin(null);
 
-                document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                rotationFront.current.ontransitionend = ()=>{
                     setSucessRegister(`Bem vinda, ${response.data.login}!`);
                     setTimeout(()=>{
                         setPrevSucessRegister(`Bem vinda, ${response.data.login}!`);
@@ -166,17 +169,17 @@ export default function RegisterForm(){
                     }else{
                         setErrorLogin(null);
                         
-                        document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                        rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                        document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                        rotationFront.current.ontransitionend = ()=>{
                             setErrorRegister('Falha na conexão com o servidor!');
                         }
                     }
                 }else{
                     setErrorLogin(null);
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setErrorRegister('Falha na conexão com o servidor!');
                     }
                 }
@@ -187,6 +190,7 @@ export default function RegisterForm(){
     if(!errorRegister && !sucessRegister && !prevSucessRegister){
         return(
             <form 
+                ref={rotationFront}
                 onSubmit={handleRegister} 
                 className="form rotation__side rotation__side--front" 
                 noValidate={true}
@@ -249,6 +253,7 @@ export default function RegisterForm(){
     }else{
         return(
             <Alert
+                fowardedRef={rotationBack}
                 error={errorRegister}
                 sucess={sucessRegister || prevSucessRegister}
                 className='rotation__side rotation__side--back u-font-size-medium'

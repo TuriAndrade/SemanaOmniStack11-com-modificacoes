@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 /*
     Usando esse Hook, você diz ao React que o componente precisa fazer algo apenas depois da 
@@ -94,10 +94,14 @@ export default function Profile(props){
 
     const [openModalLogout, setOpenModalLogout] = useState(false);
 
+    const navigationToggle = useRef();
+    const navigationLogoImg = useRef();
+    const rightMenuToggle = useRef();
+
     return(
         <>
             <div className="navigation">
-                <input type="checkbox" className="navigation__checkbox" id="navigation__toggle"/>
+                <input ref={navigationToggle} type="checkbox" className="navigation__checkbox" id="navigation__toggle"/>
                 <label htmlFor="navigation__toggle" className="navigation__button">
                     <span className="navigation__icon"></span>
                 </label>
@@ -107,26 +111,26 @@ export default function Profile(props){
                         <li className="navigation__item">
                             <div onMouseLeave={
                                 ()=>{
-                                    document.querySelector('#navigation__logo-img').style.opacity = "0";
-                                    document.querySelector('#navigation__logo-img').ontransitionend = ()=>{
-                                        document.querySelector('#navigation__logo-img').style.opacity = "1";
-                                        document.querySelector('#navigation__logo-img').style.filter = "brightness(10)";
+                                    navigationLogoImg.current.style.opacity = "0";
+                                    navigationLogoImg.current.ontransitionend = ()=>{
+                                        navigationLogoImg.current.style.opacity = "1";
+                                        navigationLogoImg.current.style.filter = "brightness(10)";
                                     }
                                 }
                             } onMouseEnter={
                                 ()=>{
-                                    document.querySelector('#navigation__logo-img').style.opacity = "0";
-                                    document.querySelector('#navigation__logo-img').ontransitionend = ()=>{
-                                        document.querySelector('#navigation__logo-img').style.opacity = "1";
-                                        document.querySelector('#navigation__logo-img').style.filter = "brightness(1)";
+                                    navigationLogoImg.current.style.opacity = "0";
+                                    navigationLogoImg.current.ontransitionend = ()=>{
+                                        navigationLogoImg.current.style.opacity = "1";
+                                        navigationLogoImg.current.style.filter = "brightness(1)";
                                     }
                                 }
                             } onClick={
                                 ()=>{
-                                    document.querySelector("#navigation__toggle").checked = false;
+                                    navigationToggle.current.checked = false;
                                 }
                             } className="navigation__logo-img">
-                                <img id='navigation__logo-img' src={LogoImg} alt="Be The Hero"/>
+                                <img ref={navigationLogoImg} src={LogoImg} alt="Be The Hero"/>
                             </div>
                         </li>
                         <li className="navigation__item">
@@ -143,7 +147,7 @@ export default function Profile(props){
                 </nav>
             </div>
             <div className="right-menu">
-                <input type="checkbox" className="right-menu__checkbox" id="right-menu__toggle"/>
+                <input ref={rightMenuToggle} type="checkbox" className="right-menu__checkbox" id="right-menu__toggle"/>
                 <label htmlFor="right-menu__toggle" className='right-menu__label'>
                     <div className="right-menu__button">
                         <FiUser className='right-menu__icon'/>
@@ -153,7 +157,7 @@ export default function Profile(props){
                     <div className="right-menu__content">
                         <button onClick={
                             ()=>{
-                                document.querySelector("#right-menu__toggle").checked = false;
+                                rightMenuToggle.current.checked = false;
                             }
                         } className="right-menu__close-btn">
                             <FiArrowLeft className='right-menu__icon' color='#000'/>
@@ -166,7 +170,7 @@ export default function Profile(props){
                 </div>
                 <div onClick={
                     ()=>{
-                        document.querySelector("#right-menu__toggle").checked = false;
+                        rightMenuToggle.current.checked = false;
                     }
                 } className="right-menu__close-area"></div>
             </div>

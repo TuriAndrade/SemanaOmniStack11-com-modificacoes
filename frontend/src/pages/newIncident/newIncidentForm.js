@@ -39,6 +39,9 @@ export default function NewIncidentForm(props){
 
     const textareaHeight = useRef(null);
 
+    const rotationFront = useRef();
+    const rotationBack = useRef();
+
     /*
         Na montagem do componente, didSubmit é false e o form não é renderizado com uma transição
         Logo após ele ser montado, didSubmit é definido como true, e todas as vezes que o componente
@@ -49,21 +52,21 @@ export default function NewIncidentForm(props){
 
         if(error || sucess){
 
-            document.querySelector('.rotation__side--back').style.transform = "rotateY(0deg)";
+            rotationBack.current.style.transform = "rotateY(0deg)";
             
         }else if(prevSucess){
 
             didSubmit.current = true;
             
-            document.querySelector('.rotation__side--back').style.transform = "rotateY(-90deg)";
+            rotationBack.current.style.transform = "rotateY(-90deg)";
 
-            document.querySelector('.rotation__side--back').ontransitionend = () =>{
+            rotationBack.current.ontransitionend = () =>{
                 setPrevSucess(null);
             }
 
         }else{
             didSubmit.current = false;
-            document.querySelector('.rotation__side--front').style.transform = "rotateY(0deg)";
+            rotationFront.current.style.transform = "rotateY(0deg)";
         }
 
     }, [error, sucess, prevSucess]);
@@ -98,9 +101,9 @@ export default function NewIncidentForm(props){
                     }
                 });
 
-                document.querySelector('.rotation__side--front').style.transform = "rotateY(90deg)";
+                rotationFront.current.style.transform = "rotateY(90deg)";
 
-                document.querySelector('.rotation__side--front').ontransitionend = () => {
+                rotationFront.current.ontransitionend = () => {
                     setSucess('Caso cadastrado com sucesso!');
                     
                     setTimeout(()=>{
@@ -130,6 +133,7 @@ export default function NewIncidentForm(props){
     if(!error && !sucess && !prevSucess){
         return(
             <form 
+                ref={rotationFront}
                 style={didSubmit.current ? {transform:"rotateY(90deg)"}:null}
                 className="form rotation__side rotation__side--front" 
                 onSubmit={handleNewIncident}
@@ -163,6 +167,7 @@ export default function NewIncidentForm(props){
     }else{
         return(
             <Alert
+                fowardedRef={rotationBack}
                 error = {error}
                 sucess = {sucess || prevSucess}
                 className = 'rotation__side rotation__side--back u-font-size-medium'

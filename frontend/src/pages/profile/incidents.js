@@ -21,6 +21,9 @@ export default function Incidents(props){
     const incidentToDelete = useRef(null);
     const incidentHeight = useRef(null);
 
+    const rotationFront = useRef([]);
+    const rotationBack = useRef([]);
+
     /*
         Everytime a request is made to the API, the user's permission is verified
         to check if their token is still valid. If not, they are redirect to the 
@@ -86,9 +89,9 @@ export default function Incidents(props){
 
         if(errorDeleteIncidents || sucessDeleteIncidents){
             
-            document.querySelector(`.profile-container__incident--${incidentToDelete.current}`).style.transform = "rotateY(0)";
+            rotationBack.current[incidentToDelete.current].style.transform = "rotateY(0)";
 
-            document.querySelector(`.profile-container__incident--${incidentToDelete.current}`).ontransitionend = ()=>{
+            rotationBack.current[incidentToDelete.current].ontransitionend = ()=>{
 
                 if(sucessDeleteIncidents){
                     setTimeout(()=>{
@@ -99,30 +102,33 @@ export default function Incidents(props){
             }
         }else if(prevSucessDeleteIncidents){
 
-            document.querySelector(`.profile-container__incident--${incidentToDelete.current}`).style.transform = "rotateY(-90deg)";
+            const indexToDelete = incidentToDelete.current;
 
-            document.querySelector(`.profile-container__incident--${incidentToDelete.current}`).ontransitionend = ()=>{
+            incidentToDelete.current = null;
 
-                setIncidents(incidents.filter(incident => incident.id !== incidentToDelete.current));
+            rotationBack.current[indexToDelete].style.transform = "rotateY(-90deg)";
 
-                if(incidents.filter(incident => incident.id !== incidentToDelete.current).length === 0){
+            rotationBack.current[indexToDelete].ontransitionend = ()=>{
+
+                setIncidents(incidents.filter((incident, index) => index !== indexToDelete));
+
+                if(incidents.filter((incident, index) => index !== indexToDelete).length === 0){
                     incidentHeight.current = null;
                     setIncidentsExist(false);
                 }
 
                 setPrevSucessDeleteIncidents(null);
-                incidentToDelete.current = null;
             }
         }
 
     }, [errorDeleteIncidents, sucessDeleteIncidents, prevSucessDeleteIncidents]);
 
-    async function handleDelete(id){
+    async function handleDelete(index, id){
         if(!errorDeleteIncidents && !sucessDeleteIncidents && !prevSucessDeleteIncidents){
             try{
-                incidentToDelete.current = id;
+                incidentToDelete.current = index;
 
-                incidentHeight.current = document.querySelector(`.profile-container__incident--${id}`).offsetHeight;
+                incidentHeight.current = rotationFront.current[incidentToDelete.current].offsetHeight;
 
                 await api.delete(`/incidents/${id}`, {
                     withCredentials:true, 
@@ -132,9 +138,9 @@ export default function Incidents(props){
                     }
                 }); //withCredentials permite envio de cookies
                 
-                document.querySelector(`.profile-container__incident--${id}`).style.transform = "rotateY(90deg)";
+                rotationFront.current[incidentToDelete.current].style.transform = "rotateY(90deg)";
 
-                document.querySelector(`.profile-container__incident--${id}`).ontransitionend = ()=>{
+                rotationFront.current[incidentToDelete.current].ontransitionend = ()=>{
                     setSucessDeleteIncidents('Caso excluído com sucesso!');
                 }
 
@@ -163,10 +169,10 @@ export default function Incidents(props){
             return(
                 <ul className="grid-2c rotation">
                     { // para usar javascript dentro do jsx, é necessário usar { }
-                        incidents.map(incident =>{ // cada incident é um objeto JSON em um array que foi retornado pela requisição. map() percorre esse array
-                            if(incidentToDelete.current !== incident.id){             
+                        incidents.map((incident, index) =>{ // cada incident é um objeto JSON em um array que foi retornado pela requisição. map() percorre esse array
+                            if(incidentToDelete.current !== index){             
                                 return(
-                                    <li key = {incident.id} className={`rotation__side rotation__side--front profile-container__incident--${incident.id}`}>
+                                    <li ref={element => rotationFront.current[index] = element} key = {incident.id} className={`rotation__side rotation__side--front`}>
                                         <strong>CASO:</strong>
                                         <p>{incident.title}</p>
 
@@ -179,7 +185,7 @@ export default function Incidents(props){
                                         }</p>
 
                                         <button className="btn-icon-2" type="button" onClick={
-                                            ()=>handleDelete(incident.id)
+                                            ()=>handleDelete(index, incident.id)
                                         }>
                                             <FiTrash2 className="u-font-size-icon-small"/>
                                         </button>
@@ -188,10 +194,11 @@ export default function Incidents(props){
                             }else{
                                 return(
                                     <Alert
+                                        fowardedRef={element => rotationBack.current[index] = element}
                                         key = {incident.id}
                                         error = {errorDeleteIncidents}
                                         sucess = {sucessDeleteIncidents || prevSucessDeleteIncidents}
-                                        className = {`rotation__side rotation__side--back profile-container__incident--${incident.id} u-font-size-medium`}
+                                        className = {`rotation__side rotation__side--back u-font-size-medium`}
                                         style = {{height:incidentHeight.current}} //ou passa um valor ou passa null
                                     />
                                 );

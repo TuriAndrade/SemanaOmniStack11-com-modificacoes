@@ -59,15 +59,20 @@ export async function validateCity(stateCity, stateUf, setError){
             const testUf = ufArray.filter(uf => uf.sigla === stateUf);
 
             if(testUf.length > 0){
-                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${testUf[0].id}/distritos`)
+                try{
+                    const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${testUf[0].id}/distritos`)
                 
-                const cities = await response.json();
+                    const cities = await response.json();
 
-                if(cities.filter(city => city.nome.toUpperCase() === stateCity.toUpperCase()).length > 0){
-                    setError(null);
-                    return stateCity;
-                }else{
-                    setError('Cidade não encontrada!');
+                    if(cities.filter(city => city.nome.toUpperCase() === stateCity.toUpperCase()).length > 0){
+                        setError(null);
+                        return stateCity;
+                    }else{
+                        setError('Cidade não encontrada!');
+                        return null;
+                    }
+                }catch(error){
+                    setError('Falha na conexão com a internet!');
                     return null;
                 }
 

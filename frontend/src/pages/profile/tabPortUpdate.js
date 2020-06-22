@@ -46,6 +46,11 @@ export default function TabPortUpdateModal(props){
 
     const didSubmit = useRef(false);
 
+    const popup = useRef();
+    const content = useRef();
+    const rotationFront = useRef();
+    const rotationBack = useRef();
+
     useEffect(()=>{
         if(props.display){
 
@@ -56,10 +61,10 @@ export default function TabPortUpdateModal(props){
             setCity(props.city);
             setUf(props.uf)
 
-            document.querySelector('.profile-container__update-popup').style.visibility = 'visible';
-            document.querySelector('.profile-container__update-popup').style.opacity = '1';
-            document.querySelector('.profile-container__update-popup .popup__content').style.transform = 'scale(1)';
-            document.querySelector('.profile-container__update-popup .popup__content').style.opacity = '1';
+            popup.current.style.visibility = 'visible';
+            popup.current.style.opacity = '1';
+            content.current.style.transform = 'scale(1)';
+            content.current.style.opacity = '1';
         }
     }, [props.display, props.login, props.name, props.email, props.whatsapp, props.city, props.uf]);
 
@@ -69,33 +74,33 @@ export default function TabPortUpdateModal(props){
 
             if(error || sucess){
 
-                document.querySelector('.rotation__side--back').style.transform = "rotateY(0deg)";
+                rotationBack.current.style.transform = "rotateY(0deg)";
                 
             }else if(prevSucess){
 
                 didSubmit.current = true;
                 
-                document.querySelector('.rotation__side--back').style.transform = "rotateY(-90deg)";
+                rotationBack.current.style.transform = "rotateY(-90deg)";
 
-                document.querySelector('.rotation__side--back').ontransitionend = () =>{
+                rotationBack.current.ontransitionend = () =>{
                     setPrevSucess(null);
                 }
 
             }else{
                 didSubmit.current = false;
-                document.querySelector('.rotation__side--front').style.transform = "rotateY(0deg)";
+                rotationFront.current.style.transform = "rotateY(0deg)";
             }
         }
 
     }, [props.display, error, sucess, prevSucess]);
 
     function handleClose(){
-        document.querySelector('.profile-container__update-popup').style.visibility = 'hidden';
-        document.querySelector('.profile-container__update-popup').style.opacity = '0';
-        document.querySelector('.profile-container__update-popup .popup__content').style.transform = 'scale(.3)';
-        document.querySelector('.profile-container__update-popup .popup__content').style.opacity = '0';
+        popup.current.style.visibility = 'hidden';
+        popup.current.style.opacity = '0';
+        content.current.style.transform = 'scale(.3)';
+        content.current.style.opacity = '0';
 
-        document.querySelector('.profile-container__update-popup').ontransitionend = ()=>{
+        popup.current.ontransitionend = ()=>{
             props.setDisplay(false);
         }
     }
@@ -115,7 +120,7 @@ export default function TabPortUpdateModal(props){
         if(dados.login && dados.name && dados.email && dados.whatsapp && dados.city && dados.uf){
             try{
 
-                formHeight.current = document.querySelector('.rotation__side--front').offsetHeight;
+                formHeight.current = rotationFront.current.offsetHeight;
 
                 await api.put('/update/data', dados,{
                     timeout:5000,
@@ -129,9 +134,9 @@ export default function TabPortUpdateModal(props){
 
                 setErrorLogin(null);
 
-                document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                rotationFront.current.ontransitionend = ()=>{
                     setSucess('Dados atualizados com sucesso!');
 
                     setTimeout(()=>{
@@ -148,17 +153,17 @@ export default function TabPortUpdateModal(props){
                     }else{
                         setErrorLogin(null);
                         
-                        document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                        rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                        document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                        rotationFront.current.ontransitionend = ()=>{
                             setError('Falha na conexão com o servidor!');
                         }
                     }
                 }else{
                     setErrorLogin(null);
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
                         
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setError('Falha na conexão com o servidor!');
                     }
                 }
@@ -168,9 +173,9 @@ export default function TabPortUpdateModal(props){
 
     if(props.display){
         return(
-            <div className="popup profile-container__update-popup">
+            <div ref={popup} className="popup profile-container__update-popup">
                 <div onClick={handleClose} className="popup__close-area"></div>
-                <div className="popup__content">
+                <div ref={content} className="popup__content">
                     <a onClick={handleClose} className="popup__close-btn">&times;</a>
                     <div className="background-video">
                         <video className="background-video__content" autoPlay muted loop>
@@ -183,6 +188,7 @@ export default function TabPortUpdateModal(props){
                                 prevSucess || error || sucess
                                 ?
                                 <Alert
+                                    fowardedRef={rotationBack}
                                     error={error}
                                     sucess={sucess || prevSucess}
                                     className='rotation__side rotation__side--back u-font-size-medium'
@@ -190,6 +196,7 @@ export default function TabPortUpdateModal(props){
                                 />
                                 :
                                 <form 
+                                    ref={rotationFront}
                                     onSubmit={handleSubmit} 
                                     className="form rotation__side rotation__side--front" 
                                     style={didSubmit.current ? {transform:"rotateY(90deg)"}:null}

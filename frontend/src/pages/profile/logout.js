@@ -34,34 +34,39 @@ export default function Logout(props){
     const formHeight = useRef(null);
     const formWidth = useRef(null);
 
+    const rotationFront = useRef();
+    const rotationBack = useRef();
+    const popup = useRef();
+    const content = useRef();
+
     const history = useHistory();
 
     useEffect(()=>{
         if(props.display){
-            document.querySelector('.profile-container__logout-popup').style.visibility = 'visible';
-            document.querySelector('.profile-container__logout-popup').style.opacity = '1';
-            document.querySelector('.profile-container__logout-popup .popup__content').style.transform = 'scale(1)';
-            document.querySelector('.profile-container__logout-popup .popup__content').style.opacity = '1';
+            popup.current.style.visibility = 'visible';
+            popup.current.style.opacity = '1';
+            content.current.style.transform = 'scale(1)';
+            content.current.style.opacity = '1';
         }
     }, [props.display]);
 
     useEffect(()=>{
         if(error || sucess){
-            document.querySelector('.rotation__side--back').style.transform = 'rotateY(0)';
+            rotationBack.current.style.transform = 'rotateY(0)';
             
-            document.querySelector('.rotation__side--back').ontransitionend = ()=>{
+            rotationBack.current.ontransitionend = ()=>{
                 setShouldRedirect(true);
             }
         }
     }, [error, sucess]);
 
     function handleClose(){
-        document.querySelector('.profile-container__logout-popup').style.visibility = 'hidden';
-        document.querySelector('.profile-container__logout-popup').style.opacity = '0';
-        document.querySelector('.profile-container__logout-popup .popup__content').style.transform = 'scale(.3)';
-        document.querySelector('.profile-container__logout-popup .popup__content').style.opacity = '0';
+        popup.current.style.visibility = 'hidden';
+        popup.current.style.opacity = '0';
+        content.current.style.transform = 'scale(.3)';
+        content.current.style.opacity = '0';
 
-        document.querySelector('.profile-container__logout-popup').ontransitionend = ()=>{
+        popup.current.ontransitionend = ()=>{
             props.setDisplay(false);
         }
     }
@@ -80,8 +85,8 @@ export default function Logout(props){
     async function handleSubmit(e){
         e.preventDefault();
 
-        formHeight.current = document.querySelector('.rotation__side--front').offsetHeight;
-        formWidth.current = document.querySelector('.rotation__side--front').offsetWidth;
+        formHeight.current = rotationFront.current.offsetHeight;
+        formWidth.current = rotationFront.current.offsetWidth;
 
         if(thisSessionLogoutRadio){
             try{
@@ -93,23 +98,23 @@ export default function Logout(props){
                     }
                 });
 
-                document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                rotationFront.current.ontransitionend = ()=>{
                     setSuccess('Logout concluído!');
                 }
 
             }catch(error){
                 if(error.response){ //.response access the error response
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setError('Forbidden');
                     }
                 }else{
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setError('Falha na conexão com o servidor!');
                     }
                 }
@@ -144,9 +149,9 @@ export default function Logout(props){
                         AND THE BODY HAS TO BE CALLED DATA
                     */
 
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setSuccess('Logout concluído!');
                     }
 
@@ -155,16 +160,16 @@ export default function Logout(props){
                         if(error.response.data.error === "Incorrect password"){
                             setIncorrectPassword('Senha incorreta!')
                         }else{
-                            document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                            rotationFront.current.style.transform = 'rotateY(90deg)';
     
-                            document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                            rotationFront.current.ontransitionend = ()=>{
                                 setError('Forbidden');
                             }
                         }
                     }else{
-                        document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                        rotationFront.current.style.transform = 'rotateY(90deg)';
     
-                        document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                        rotationFront.current.ontransitionend = ()=>{
                             setError('Falha na conexão com o servidor!');
                         }
                     }
@@ -183,9 +188,9 @@ export default function Logout(props){
         }
 
         return(
-            <div className="popup profile-container__logout-popup">
+            <div ref={popup} className="popup profile-container__logout-popup">
                 <div onClick={handleClose} className="popup__close-area"></div>
-                <div className="popup__content">
+                <div ref={content} className="popup__content">
                     <div className="background-video">
                         <video className="background-video__content" autoPlay muted loop>
                             <source src={videos.current[Math.floor((Math.random() * 3))]} type='video/mp4'/>
@@ -200,6 +205,7 @@ export default function Logout(props){
                                 ?
                                 
                                 <Alert
+                                    fowardedRef = {rotationBack}
                                     error = {error}
                                     sucess = {sucess}
                                     className = {`rotation__side rotation__side--back u-font-size-medium`}
@@ -208,7 +214,7 @@ export default function Logout(props){
 
                                 :
 
-                                <form onSubmit={handleSubmit} className="form rotation__side rotation__side--front">
+                                <form ref={rotationFront} onSubmit={handleSubmit} className="form rotation__side rotation__side--front">
                                     <div onClick={showFormThisSectionLogout} className="form__radio-group">
                                         <input id='radio__this-section-logout' className='form__radio-input' type="radio" name="radio-logout" checked={thisSessionLogoutRadio} readOnly/>
                                         <label htmlFor="radio__this-section-logout" className="form__radio-label">

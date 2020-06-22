@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { FiEdit } from 'react-icons/fi';
 import { FaUserTag, FaUser, FaEnvelope, FaPhone, FaMapMarked, FaCheck, FaMap } from 'react-icons/fa';
@@ -56,6 +56,23 @@ export default function ProfileList(props){
 
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
+    const checkbox = useRef({
+        login:null,
+        nome:null,
+        email:null,
+        whatsapp:null,
+        city:null,
+        uf:null
+    });
+    const inputGroup = useRef({
+        login:null,
+        nome:null,
+        email:null,
+        whatsapp:null,
+        city:null,
+        uf:null
+    });
+
     useEffect(()=>{
         api.get('/get/data', {
             withCredentials:true,
@@ -71,19 +88,19 @@ export default function ProfileList(props){
         });
     }, []);
 
-    function handleEditInfo(id){
-        if(document.querySelector(`#right-menu__edit-checkbox--${id}`).checked){
-            document.querySelector(`#right-menu__input-group--${id}`).style.visibility = "visible";
-            document.querySelector(`#right-menu__input-group--${id}`).style.opacity = "1";
-            document.querySelector(`#right-menu__input-group--${id}`).style.transform = "translateX(0)";
+    function handleEditInfo(index){
+        if(checkbox.current[index].checked){
+            inputGroup.current[index].style.visibility = "visible";
+            inputGroup.current[index].style.opacity = "1";
+            inputGroup.current[index].style.transform = "translateX(0)";
         }else{
-            document.querySelector(`#right-menu__input-group--${id}`).style.visibility = "hidden";
-            document.querySelector(`#right-menu__input-group--${id}`).style.opacity = "0";
-            document.querySelector(`#right-menu__input-group--${id}`).style.transform = "translateX(-100%)";
+            inputGroup.current[index].style.visibility = "hidden";
+            inputGroup.current[index].style.opacity = "0";
+            inputGroup.current[index].style.transform = "translateX(-100%)";
         }
     }
 
-    async function handleSubmit(data, id, setError){
+    async function handleSubmit(data, index, setError){
 
         try{
             await api.put('/update/data', data,{
@@ -96,10 +113,10 @@ export default function ProfileList(props){
 
             setData(Object.assign({}, data));
 
-            document.querySelector(`#right-menu__edit-checkbox--${id}`).checked = false;
-            document.querySelector(`#right-menu__input-group--${id}`).style.visibility = "hidden";
-            document.querySelector(`#right-menu__input-group--${id}`).style.opacity = "0";
-            document.querySelector(`#right-menu__input-group--${id}`).style.transform = "translateX(-100%)";
+            checkbox.current[index].checked = false;
+            inputGroup.current[index].style.visibility = "hidden";
+            inputGroup.current[index].style.opacity = "0";
+            inputGroup.current[index].style.transform = "translateX(-100%)";
 
         }catch(error){
             if(error.response){
@@ -130,7 +147,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('login');
                             }
-                        } id='right-menu__edit-checkbox--login' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['login'] = element} id='right-menu__edit-checkbox--login' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--login" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -151,7 +168,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong, 'login', setErrorLogin);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--login' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['login'] = element} id='right-menu__input-group--login' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorLogin}
                                 type = 'text'
@@ -178,7 +195,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('name');
                             }
-                        } id='right-menu__edit-checkbox--name' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['name'] = element} id='right-menu__edit-checkbox--name' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--name" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -199,7 +216,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong, 'name', setErrorName);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--name' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['name'] = element} id='right-menu__input-group--name' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorName}
                                 type = 'text'
@@ -226,7 +243,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('email');
                             }
-                        } id='right-menu__edit-checkbox--email' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['email'] = element} id='right-menu__edit-checkbox--email' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--email" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -247,7 +264,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong, 'email', setErrorEmail);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--email' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['email'] = element} id='right-menu__input-group--email' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorEmail}
                                 type = 'text'
@@ -273,7 +290,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('whatsapp');
                             }
-                        } id='right-menu__edit-checkbox--whatsapp' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['whatsapp'] = element} id='right-menu__edit-checkbox--whatsapp' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--whatsapp" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -294,7 +311,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong, 'whatsapp', setErrorWhatsapp);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--whatsapp' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['whatsapp'] = element} id='right-menu__input-group--whatsapp' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorWhatsapp}
                                 type = 'text'
@@ -321,7 +338,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('city');
                             }
-                        } id='right-menu__edit-checkbox--city' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['city'] = element} id='right-menu__edit-checkbox--city' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--city" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -342,7 +359,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong,'city', setErrorCity);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--city' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['city'] = element} id='right-menu__input-group--city' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorCity}
                                 type = 'text'
@@ -369,7 +386,7 @@ export default function ProfileList(props){
                             ()=>{
                                 handleEditInfo('uf');
                             }
-                        } id='right-menu__edit-checkbox--uf' type="checkbox" className="right-menu__edit-checkbox"/>
+                        } ref={element => checkbox.current['uf'] = element} id='right-menu__edit-checkbox--uf' type="checkbox" className="right-menu__edit-checkbox"/>
                         <label htmlFor="right-menu__edit-checkbox--uf" className="right-menu__edit-label">
                             <FiEdit className='right-menu__icon right-menu__icon--pointer' color='#fff'/>
                         </label>
@@ -390,7 +407,7 @@ export default function ProfileList(props){
                                 handleSubmit(ong,'uf', setErrorUf);
                             }
                         }} className="form right-menu__form">
-                        <div id='right-menu__input-group--uf' className="form--input-group-clip-path">
+                        <div ref={element => inputGroup.current['uf'] = element} id='right-menu__input-group--uf' className="form--input-group-clip-path">
                             <StateInputClipPath
                                 error = {errorUf}
                                 type = 'text'

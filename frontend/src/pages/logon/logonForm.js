@@ -109,15 +109,18 @@ export default function Logon(){
 
     const antiCsrfToken = useRef(null);
 
+    const rotationFront = useRef();
+    const rotationBack = useRef();
+
     useEffect(()=>{
         if(error || sucess){
-            document.querySelector('.rotation__side--back').style.transform = 'rotateY(0deg)';
+            rotationBack.current.style.transform = 'rotateY(0deg)';
         }
     }, [error, sucess]);
 
     useEffect(()=>{
         if(!incorrectLogin && !incorrectPassword){
-            formHeight.current = document.querySelector('.form').offsetHeight;
+            formHeight.current = rotationFront.current.offsetHeight;
         }
     },[incorrectLogin, incorrectPassword]);
 
@@ -148,7 +151,7 @@ export default function Logon(){
 
             try{
 
-                formHeight.current = document.querySelector('.rotation__side--front').offsetHeight;
+                formHeight.current = rotationFront.current.offsetHeight;
 
 
                 /*
@@ -172,9 +175,9 @@ export default function Logon(){
                 setIncorrectLogin(null);
                 setIncorrectPassword(null);
 
-                document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                rotationFront.current.ontransitionend = ()=>{
                     setSucess('Login realizado com sucesso!')
 
                     setTimeout(()=>{
@@ -204,16 +207,16 @@ export default function Logon(){
                         setIncorrectLogin(null);
                         setIncorrectPassword(null);
                         
-                        document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                        rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                        document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                        rotationFront.current.ontransitionend = ()=>{
                             setError('Falha na conexão com o servidor!');
                         }
                     }
                 }else{
-                    document.querySelector('.rotation__side--front').style.transform = 'rotateY(90deg)';
+                    rotationFront.current.style.transform = 'rotateY(90deg)';
 
-                    document.querySelector('.rotation__side--front').ontransitionend = ()=>{
+                    rotationFront.current.ontransitionend = ()=>{
                         setError('Falha na conexão com o servidor!');
                     }
                 }
@@ -223,7 +226,7 @@ export default function Logon(){
 
     if(!error && !sucess){
         return(
-            <form className="form rotation__side rotation__side--front" onSubmit={handleLogin}>
+            <form ref={rotationFront} className="form rotation__side rotation__side--front" onSubmit={handleLogin}>
                 <StateInput 
                     error = {incorrectLogin}
                     type = 'text'
@@ -248,6 +251,7 @@ export default function Logon(){
     }else{
         return(
             <Alert
+                fowardedRef={rotationBack}
                 sucess={sucess}
                 error={error}
                 className='rotation__side rotation__side--back u-font-size-medium'
