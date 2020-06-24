@@ -12,29 +12,34 @@ module.exports = {
             jwt.verify(token, process.env.JWT_AUTHENTICATION, async function (err, ong){ //ong acces token after its decrypted
                 if(err){ //fires if token doesn't exists
                     return response.status(401).json({error:"Invalid auth token"});
-                }else if(utils.decode(token).iat > request.app.get('timestamp')){ //request.app holds a reference to the instance of the Express application that is using the middleware.
-                    
-                    /*
-                        Essa condição invalida todos os tokens que foram criados antes do deploy do servidor
-                    */
-    
-                    redis.get(ong.id, async (error, result)=>{
+                }else{
+                    redis.get('first-connection', (error, result)=>{
                         if(error){
                             return response.status(400).json({error});
-                        }else{
-                            if(ong.generation > Number(result)){ //if no data matches the ong.id, result will be null and this condition will be true
-
-                                request.token = token; 
-                                request.ong = ong;
-                                next();
-                                
+                        }else if(result){
+                            if(utils.decode(token).iat > Number(result)){
+                                redis.get(ong.id, async (error, result)=>{
+                                    if(error){
+                                        return response.status(400).json({error});
+                                    }else{
+                                        if(ong.generation > Number(result)){ //if no data matches the ong.id, result will be null and this condition will be true
+    
+                                            request.token = token; 
+                                            request.ong = ong;
+                                            next();
+                                            
+                                        }else{
+                                            return response.status(401).json({error: "Blacklisted token"});
+                                        }
+                                    }
+                                });
                             }else{
-                                return response.status(401).json({error: "Blacklisted token"});
+                                return response.status(401).json({error: "Old token"})
                             }
+                        }else{
+                            return response.status(400).json({error: "Connection problem"})
                         }
-                    });
-                }else{
-                    return response.status(401).json({error:"Old token"});
+                    })
                 }
             });
 
